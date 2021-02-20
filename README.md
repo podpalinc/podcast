@@ -19,7 +19,7 @@ Notably, the `Podcast.AddItem` function performs most
 of the heavy lifting by taking the `Item` input and performing
 validation, overrides and duplicate setters through the feed.
 
-Full detailed Examples of the API are at <a href="https://godoc.org/github.com/eduncan911/podcast">https://godoc.org/github.com/eduncan911/podcast</a>.
+<!-- Full detailed Examples of the API are at <a href="https://godoc.org/github.com/eduncan911/podcast">https://godoc.org/github.com/eduncan911/podcast</a>. -->
 
 ### Go Modules
 This library is supported on GoLang 1.7 and higher.
