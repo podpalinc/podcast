@@ -7,7 +7,7 @@ Full documentation with detailed examples located at <a href="https://godoc.org/
 ### Usage
 To use, `go get` and `import` the package like your typical GoLang library.
 
-	$ go get -u github.com/eduncan911/podcast
+	$ go get -u github.com/podpalinc/rss-feed-generator
 	
 	import "github.com/podpalinc/rss-feed-generator"
 

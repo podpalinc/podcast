@@ -14,6 +14,8 @@ import (
 
 const (
 	pVersion = "1.3.1"
+	HEADER = ` <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"  xmlns:content="http://purl.org/rss/1.0/modules/content/">`
+	ITUNESNS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 )
 
 // Podcast represents a podcast.
@@ -65,10 +67,10 @@ type Podcast struct {
 func New(title, link, description string,
 	pubDate, lastBuildDate *time.Time) Podcast {
 	return Podcast{
-		Title:         title,
-		Link:          link,
-		Description:   description,
-		Generator:     fmt.Sprintf("go podcast v%s (github.com/eduncan911/podcast)", pVersion),
+		Title:       title,
+		Link:        link,
+		Description: description,
+		// Generator:     fmt.Sprintf("go podcast v%s (github.com/eduncan911/podcast)", pVersion),
 		PubDate:       parseDateRFC1123Z(pubDate),
 		LastBuildDate: parseDateRFC1123Z(lastBuildDate),
 		// Language:      "en-us",
@@ -521,7 +523,7 @@ func (p *Podcast) Encode(w io.Writer) error {
 		atomLink = "http://www.w3.org/2005/Atom"
 	}
 	wrapped := podcastWrapper{
-		ITUNESNS: "http://www.itunes.com/dtds/podcast-1.0.dtd",
+		ITUNESNS: ITUNESNS,
 		ATOMNS:   atomLink,
 		Version:  "2.0",
 		Channel:  p,
