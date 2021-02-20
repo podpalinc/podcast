@@ -13,6 +13,7 @@ func ExampleNew() {
 
 	// instantiate a new Podcast
 	p := podcast.New(ti, l, d, &pubDate, &updatedDate)
+	p.AddLanguage("en-us")
 
 	fmt.Println(p.Title, p.Link, p.Description, p.Language)
 	fmt.Println(p.PubDate, p.LastBuildDate)
@@ -156,6 +157,7 @@ func ExamplePodcast_Bytes() {
 
 See more at our website: <a href="http://example.com">example.com</a>
 `)
+	p.AddLanguage("en-us")
 
 	for i := int64(5); i < 7; i++ {
 		n := strconv.FormatInt(i, 10)

@@ -29,6 +29,7 @@ func Example_httpHandlers() {
 		p.AddAtomLink("http://eduncan911.com/feed.rss")
 		p.AddImage("http://janedoe.com/i.jpg")
 		p.AddSummary(`link <a href="http://example.com">example.com</a>`)
+		p.AddLanguage("en-us")
 		p.IExplicit = "no"
 
 		for i := int64(1); i < 3; i++ {
@@ -135,6 +136,7 @@ func Example_ioWriter() {
 	p.AddImage("http://example.com/podcast.jpg")
 	p.AddAuthor("Jane Doe", "jane.doe@example.com")
 	p.AddAtomLink("http://example.com/atom.rss")
+	p.AddLanguage("en-us")
 
 	for i := int64(9); i < 11; i++ {
 		n := strconv.FormatInt(i, 10)
