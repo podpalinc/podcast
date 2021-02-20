@@ -1,4 +1,4 @@
-module github.com/eduncan911/podcast
+module github.com/podpal/rss-feed-generator
 
 go 1.13
 

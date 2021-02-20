@@ -9,7 +9,7 @@
 //
 //     $ go get -u github.com/eduncan911/podcast
 //
-//     import "github.com/eduncan911/podcast"
+//     import "github.com/podpal/rss-feed-generator"
 //
 // The API exposes a number of method receivers on structs that implements the
 // logic required to comply with the specifications and ensure a compliant feed.
