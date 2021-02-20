@@ -92,6 +92,16 @@ func TestAddCategoryEmpty(t *testing.T) {
 	assert.Len(t, p.Category, 0)
 }
 
+func TestAddLanguageEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddLanguage("")
+
+	assert.Len(t, p.Language, 0)
+}
+
 func TestAddCategorySubCatEmpty1(t *testing.T) {
 	t.Parallel()
 
