@@ -463,3 +463,13 @@ func TestEncodeWriterError(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "w.Write return error")
 }
+
+// func TestPodcastWrapperXMLNameEmpty(t *testing.T) {
+// 	t.Parallel()
+
+// 	p := podcast.New("title", "desc", "Link", nil, nil)
+
+// 	pw := podcast.NewWrapper(&p)
+
+// 	assert.Equal(t, pw.XMLName, )
+// }

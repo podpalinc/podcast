@@ -15,8 +15,10 @@ import (
 // Constants to use while generating podcast feed.
 const (
 	pVersion = "1.3.1"
-	HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\" xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">\n"
+	// HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\" xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">\n"
+	HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	ITUNESNS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
+	CONTENT  = "http://purl.org/rss/1.0/modules/content/"
 )
 
 // Podcast represents a podcast.
@@ -509,9 +511,9 @@ func (p *Podcast) AddSummary(summary string) {
 }
 
 // Bytes returns an encoded []byte slice.
-func (p *Podcast) Bytes() []byte {
-	return []byte(p.String())
-}
+// func (p *Podcast) Bytes() []byte {
+// 	return []byte(p.String())
+// }
 
 // Encode writes the bytes to the io.Writer stream in RSS 2.0 specification.
 func (p *Podcast) Encode(w io.Writer) error {
@@ -523,8 +525,9 @@ func (p *Podcast) Encode(w io.Writer) error {
 	if p.AtomLink != nil {
 		atomLink = "http://www.w3.org/2005/Atom"
 	}
-	wrapped := podcastWrapper{
+	wrapped := PodcastWrapper{
 		ITUNESNS: ITUNESNS,
+		CONTENT:  CONTENT,
 		ATOMNS:   atomLink,
 		Version:  "2.0",
 		Channel:  p,
@@ -551,12 +554,22 @@ func (p *Podcast) String() string {
 // 	return buf.Len(), nil
 // }
 
-type podcastWrapper struct {
+type PodcastWrapper struct {
 	XMLName  xml.Name `xml:"rss"`
 	Version  string   `xml:"version,attr"`
 	ATOMNS   string   `xml:"xmlns:atom,attr,omitempty"`
 	ITUNESNS string   `xml:"xmlns:itunes,attr"`
+	CONTENT  string   `xml:"xmlns:content,attr"`
 	Channel  *Podcast
+}
+
+func NewWrapper(p *Podcast) PodcastWrapper {
+	return PodcastWrapper{
+		ITUNESNS: ITUNESNS,
+		CONTENT:  CONTENT,
+		Version:  "2.0",
+		Channel:  p,
+	}
 }
 
 var encoder = func(w io.Writer, o interface{}) error {
