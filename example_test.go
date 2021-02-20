@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	podcast "github.com/podpal/rss-feed-generator"
+	podcast "github.com/podpalinc/rss-feed-generator"
 )
 
 func Example_httpHandlers() {

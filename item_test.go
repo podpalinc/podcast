@@ -3,7 +3,7 @@ package podcast_test
 import (
 	"testing"
 
-	podcast "github.com/podpal/rss-feed-generator"
+	podcast "github.com/podpalinc/rss-feed-generator"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -1,9 +1,3 @@
-<!-- [![GoDoc](https://godoc.org/github.com/eduncan911/podcast?status.svg)](https://godoc.org/github.com/eduncan911/podcast)
-[![Build Status](https://github.com/eduncan911/podcast/workflows/go-cicd/badge.svg)](https://github.com/eduncan911/podcast/actions?workflow=go-cicd)
-[![Coverage Status](https://coveralls.io/repos/github/eduncan911/podcast/badge.svg?branch=master)](https://coveralls.io/github/eduncan911/podcast?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/eduncan911/podcast)](https://goreportcard.com/report/github.com/eduncan911/podcast)
-[![MIT License](https://img.shields.io/npm/l/mediaelement.svg)](https://eduncan911.mit-license.org/) -->
-
 # podcast
 Package podcast generates a fully compliant iTunes and RSS 2.0 podcast feed
 for GoLang using a simple API.
@@ -15,7 +9,7 @@ To use, `go get` and `import` the package like your typical GoLang library.
 
 	$ go get -u github.com/eduncan911/podcast
 	
-	import "github.com/podpal/rss-feed-generator"
+	import "github.com/podpalinc/rss-feed-generator"
 
 The API exposes a number of method receivers on structs that implements the
 logic required to comply with the specifications and ensure a compliant feed.
