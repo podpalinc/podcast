@@ -132,6 +132,36 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 	assert.Len(t, p.ICategories[0].ICategories, 2)
 }
 
+func TestAddParentalAdvisoryEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddParentalAdvisory("invalid")
+
+	assert.EqualValues(t, p.IExplicit, "")
+}
+
+func TestAddParentalAdvisoryExplicit(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddParentalAdvisory("explicit")
+
+	assert.EqualValues(t, p.IExplicit, "true")
+}
+
+func TestAddParentalAdvisoryClean(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddParentalAdvisory("clean")
+
+	assert.EqualValues(t, p.IExplicit, "false")
+}
+
 func TestAddImageEmpty(t *testing.T) {
 	t.Parallel()
 

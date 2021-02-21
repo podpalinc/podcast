@@ -331,6 +331,16 @@ func (p *Podcast) AddLanguage(language string) {
 	p.Language = language
 }
 
+func (p *Podcast) AddParentalAdvisory(parentalAdvisory string) {
+	if parentalAdvisory == "explicit" {
+		p.IExplicit = "true"
+	} else if parentalAdvisory == "clean" {
+		p.IExplicit = "false"
+	}
+
+	return
+}
+
 // AddImage adds the specified Image to the Podcast.
 //
 // Podcast feeds contain artwork that is a minimum size of
