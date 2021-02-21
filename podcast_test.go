@@ -91,7 +91,6 @@ func TestAddCategoryEmpty(t *testing.T) {
 	assert.Len(t, p.ICategories, 0)
 	assert.Len(t, p.Category, 0)
 }
-
 func TestAddLanguageEmpty(t *testing.T) {
 	t.Parallel()
 
@@ -130,6 +129,20 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 	assert.Len(t, p.ICategories, 1)
 	assert.EqualValues(t, p.Category, "mycat")
 	assert.Len(t, p.ICategories[0].ICategories, 2)
+}
+
+func TestParseCategories(t *testing.T) {
+	t.Parallel()
+
+	out := podcast.ParseCategories([]string{"Arts", "Books", "Religion & Spirituality", "Christianity", "Buddhism", "Sports"})
+
+	expected := map[string][]string{
+		"Arts":                    []string{"Books"},
+		"Religion & Spirituality": []string{"Christianity", "Buddhism"},
+		"Sports":                  []string{},
+	}
+
+	assert.EqualValues(t, expected, out)
 }
 
 func TestAddParentalAdvisoryEmpty(t *testing.T) {

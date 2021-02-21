@@ -15,7 +15,6 @@ import (
 // Constants to use while generating podcast feed.
 const (
 	pVersion = "1.3.1"
-	// HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\" xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" xmlns:content=\"http://purl.org/rss/1.0/modules/content/\">\n"
 	HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	ITUNESNS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
 	CONTENT  = "http://purl.org/rss/1.0/modules/content/"
@@ -206,6 +205,64 @@ func (p *Podcast) AddCategory(category string, subCategories []string) {
 		icat.ICategories = append(icat.ICategories, &icat2)
 	}
 	p.ICategories = append(p.ICategories, &icat)
+}
+
+type podcastCategory struct {
+	Name            string
+	ParentCategory  string
+	ChildCategories []string
+}
+
+// Utility function to parse categories and divide them into
+func ParseCategories(categories []string) map[string][]string {
+	PODCAST_CATEGORIES := []podcastCategory{}
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Arts", ChildCategories: []string{"Books", "Design", "Fashion & Beauty", "Food", "Performing Arts", "Visual Arts"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Business", ChildCategories: []string{"Careers", "Entrepreneurship", "Investing", "Management", "Marketing", "Non-Profit"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Comedy", ChildCategories: []string{"Comedy Interviews", "Improv", "Stand-Up"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Education", ChildCategories: []string{"Courses", "How To", "Language Learning", "Self-Improvement"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Fiction", ChildCategories: []string{"Comedy Fiction", "Drama", "Science Fiction"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Government", ChildCategories: []string{}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "History", ChildCategories: []string{}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Health & Fitness", ChildCategories: []string{"Alternative Health", "Fitness", "Medicine", "Mental Health", "Nutrition", "Sexuality"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Kids & Family", ChildCategories: []string{"Education for Kids", "Parenting", "Pets & Animals", "Stories for Kids"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Leisure", ChildCategories: []string{"Animation & Manga", "Automotive", "Aviation", "Crafts", "Games", "Hobbies", "Home & Garden", "Video Games"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Music", ChildCategories: []string{"Music Commentary", "Music History", "Music Interviews"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "News", ChildCategories: []string{"Business News", "Daily News", "Entertainment News", "News Commentary", "Politics", "Sports News", "Tech News"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Religion & Spirituality", ChildCategories: []string{"Buddhism", "Christianity", "Hinduism", "Islam", "Judaism", "Religion", "Spirituality"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Science", ChildCategories: []string{"Astronomy", "Chemistry", "Earth Sciences", "Life Sciences", "Mathematics", "Natural Sciences", "Nature", "Physics", "Social Sciences"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Society & Culture", ChildCategories: []string{"Documentary", "Personal Journals", "Philosophy", "Places & Travel", "Relationships"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Sports", ChildCategories: []string{"Baseball", "Basketball", "Cricket", "Fantasy Sports", "Football", "Golf", "Hockey", "Rugby", "Running", "Soccer", "Swimming", "Tennis", "Volleyball", "Wilderness", "Wrestling"}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "Technology", ChildCategories: []string{}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "True Crime", ChildCategories: []string{}})
+	PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: "TV & Film", ChildCategories: []string{"After Shows", "Film History", "Film Interviews", "Film Reviews", "TV Reviews"}})
+
+	for _, pc := range PODCAST_CATEGORIES {
+		for _, child := range pc.ChildCategories {
+			PODCAST_CATEGORIES = append(PODCAST_CATEGORIES, podcastCategory{Name: child, ParentCategory: pc.Name})
+		}
+	}
+
+	var findPodcastCategory = func(category string) *podcastCategory {
+		for _, pc := range PODCAST_CATEGORIES {
+			if pc.Name == category {
+				return &pc
+			}
+		}
+		return nil
+	}
+
+	parsedCategories := make(map[string][]string)
+
+	for _, category := range categories {
+		pc := findPodcastCategory(category)
+		if pc.ParentCategory != "" {
+			parsedCategories[pc.ParentCategory] = append(parsedCategories[pc.ParentCategory], pc.Name)
+		} else {
+			parsedCategories[pc.Name] = []string{}
+		}
+	}
+
+	return parsedCategories
 }
 
 // Podcast Language Codes.
