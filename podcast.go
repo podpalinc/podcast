@@ -45,6 +45,7 @@ type Podcast struct {
 	AtomLink       *AtomLink
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+	ITitle      string `xml:"itunes:title,omitempty"`
 	IAuthor     string `xml:"itunes:author,omitempty"`
 	ISubtitle   string `xml:"itunes:subtitle,omitempty"`
 	ISummary    *ISummary
@@ -524,6 +525,25 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 
 	p.Items = append(p.Items, &i)
 	return len(p.Items), nil
+}
+
+func (p *Podcast) AddItunesTitle(title string) {
+	if len(title) == 0 {
+		return
+	}
+
+	p.ITitle = title
+}
+
+func (p *Podcast) AddOwner(name, email string) {
+	if len(name) == 0 || len(email) == 0 {
+		return
+	}
+
+	p.IOwner = &Author{
+		Name:  name,
+		Email: email,
+	}
 }
 
 // AddPubDate adds the datetime as a parsed PubDate.

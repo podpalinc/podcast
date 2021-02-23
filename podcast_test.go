@@ -417,6 +417,29 @@ func TestAddItemRootIAuthorSetsAuthorIAuthor(t *testing.T) {
 	assert.EqualValues(t, "me@janedoe.com", p.Items[0].IAuthor)
 }
 
+func TestAddOwnerEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddOwner("", "")
+
+	assert.Nil(t, p.IOwner)
+}
+
+func TestAddOwner(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddOwner("joe", "joe@podpal.com")
+
+	assert.Equal(t, p.IOwner.Name, "joe")
+	assert.Equal(t, p.IOwner.Email, "joe@podpal.com")
+}
+
 func TestAddSubTitleEmpty(t *testing.T) {
 	t.Parallel()
 
