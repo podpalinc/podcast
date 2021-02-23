@@ -535,6 +535,14 @@ func (p *Podcast) AddItunesTitle(title string) {
 	p.ITitle = title
 }
 
+func (p *Podcast) AddNewFeedURL(newFeedUrl string) {
+	if len(newFeedUrl) == 0 {
+		return
+	}
+
+	p.INewFeedURL = newFeedUrl
+}
+
 func (p *Podcast) AddOwner(name, email string) {
 	if len(name) == 0 || len(email) == 0 {
 		return
