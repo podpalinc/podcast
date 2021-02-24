@@ -2,7 +2,9 @@ package podcast
 
 // Constants used across the RSS Feed Generation.
 const (
-	EpisodeTypeFull    = "full"
-	EpisodeTypeTrailer = "trailer"
-	EpisodeTypeBonus   = "bonus"
+	ParentalAdvisoryClean    = "clean"
+	ParentalAdvisoryExplicit = "explicit"
+	EpisodeTypeFull          = "full"
+	EpisodeTypeTrailer       = "trailer"
+	EpisodeTypeBonus         = "bonus"
 )

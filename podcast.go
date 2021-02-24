@@ -410,9 +410,9 @@ func (p *Podcast) AddLanguage(language string) {
 }
 
 func (p *Podcast) AddParentalAdvisory(parentalAdvisory string) {
-	if parentalAdvisory == "explicit" {
+	if parentalAdvisory == ParentalAdvisoryExplicit {
 		p.IExplicit = "true"
-	} else if parentalAdvisory == "clean" {
+	} else if parentalAdvisory == ParentalAdvisoryClean {
 		p.IExplicit = "false"
 	}
 

@@ -82,6 +82,48 @@ func TestAddEpisodeType(t *testing.T) {
 	assert.Equal(t, "full", i.EpisodeType)
 }
 
+func TestAddEpisodeParentalAdvisoryEmpty(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddParentalAdvisory("invalid")
+
+	assert.EqualValues(t, i.IExplicit, "")
+}
+
+func TestAddEpisodeParentalAdvisoryExplicit(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddParentalAdvisory(podcast.ParentalAdvisoryExplicit)
+
+	assert.EqualValues(t, i.IExplicit, "true")
+}
+
+func TestAddEpisodeParentalAdvisoryClean(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddParentalAdvisory(podcast.ParentalAdvisoryClean)
+
+	assert.EqualValues(t, i.IExplicit, "false")
+}
+
 func TestItemAddSummaryTooLong(t *testing.T) {
 	t.Parallel()
 

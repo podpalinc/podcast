@@ -200,7 +200,7 @@ func TestAddParentalAdvisoryExplicit(t *testing.T) {
 
 	p := podcast.New("title", "link", "description", nil, nil)
 
-	p.AddParentalAdvisory("explicit")
+	p.AddParentalAdvisory(podcast.ParentalAdvisoryExplicit)
 
 	assert.EqualValues(t, p.IExplicit, "true")
 }
@@ -210,7 +210,7 @@ func TestAddParentalAdvisoryClean(t *testing.T) {
 
 	p := podcast.New("title", "link", "description", nil, nil)
 
-	p.AddParentalAdvisory("clean")
+	p.AddParentalAdvisory(podcast.ParentalAdvisoryClean)
 
 	assert.EqualValues(t, p.IExplicit, "false")
 }

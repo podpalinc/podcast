@@ -96,6 +96,16 @@ func (i *Item) AddImage(url string) {
 	}
 }
 
+func (i *Item) AddParentalAdvisory(parentalAdvisory string) {
+	if parentalAdvisory == ParentalAdvisoryExplicit {
+		i.IExplicit = "true"
+	} else if parentalAdvisory == ParentalAdvisoryClean {
+		i.IExplicit = "false"
+	}
+
+	return
+}
+
 // AddPubDate adds the datetime as a parsed PubDate.
 //
 // UTC time is used by default.
