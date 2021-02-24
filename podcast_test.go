@@ -79,6 +79,32 @@ func TestAddAuthor(t *testing.T) {
 	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron Woods")
 }
 
+func TestAddCopyright(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	// act
+	p.AddCopyright("inserted copyright text")
+
+	// assert
+	assert.Equal(t, p.Copyright, "inserted copyright text")
+}
+
+func TestAddCopyrightEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	// act
+	p.AddCopyright("")
+
+	// assert
+	assert.Equal(t, p.Copyright, "")
+}
+
 func TestAddAtomLinkHrefEmpty(t *testing.T) {
 	t.Parallel()
 
