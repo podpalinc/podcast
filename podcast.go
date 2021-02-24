@@ -221,6 +221,13 @@ func (p *Podcast) AddCategory(category string, subCategories []string) {
 	p.ICategories = append(p.ICategories, &icat)
 }
 
+func (p *Podcast) AddCopyright(copyright string) {
+	if len(copyright) == 0 {
+		return
+	}
+	p.Copyright = copyright
+}
+
 type podcastCategory struct {
 	Name            string
 	ParentCategory  string
