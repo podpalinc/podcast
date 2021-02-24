@@ -3,6 +3,7 @@ package podcast
 import (
 	"encoding/xml"
 	"fmt"
+	"strconv"
 	"time"
 	"unicode/utf8"
 )
@@ -25,12 +26,11 @@ import (
 // - Always set an Enclosure.Length, to be nice to your downloaders.
 // - Use Enclosure.Type instead of setting TypeFormatted for valid extensions.
 type Item struct {
-	XMLName     xml.Name `xml:"item"`
-	GUID        string   `xml:"guid"`
-	Title       string   `xml:"title"`
-	Link        string   `xml:"link"`
-	Description string   `xml:"description"`
-	// Author           *Author    `xml:"-"`
+	XMLName          xml.Name   `xml:"item"`
+	GUID             string     `xml:"guid"`
+	Title            string     `xml:"title"`
+	Link             string     `xml:"link"`
+	Description      string     `xml:"description"`
 	AuthorFormatted  string     `xml:"author,omitempty"`
 	Category         string     `xml:"category,omitempty"`
 	Comments         string     `xml:"comments,omitempty"`
@@ -41,6 +41,9 @@ type Item struct {
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	IAuthor            string `xml:"itunes:author,omitempty"`
+	SeasonNumber       string `xml:"itunes:season,omitempty"`
+	EpisodeNumber      string `xml:"itunes:episode,omitempty"`
+	EpisodeType        string `xml:"itunes:episodeType,omitempty"`
 	ISubtitle          string `xml:"itunes:subtitle,omitempty"`
 	ISummary           *ISummary
 	IImage             *IImage
@@ -58,6 +61,24 @@ func (i *Item) AddEnclosure(
 		Type:   enclosureType,
 		Length: lengthInBytes,
 	}
+}
+
+func (i *Item) AddEpisodeNumber(episodeNumber int64) {
+	if episodeNumber <= 0 {
+		return
+	}
+
+	i.EpisodeNumber = strconv.FormatInt(episodeNumber, 10)
+}
+
+func (i *Item) AddEpisodeType(episodeType string) {
+	if len(episodeType) == 0 {
+		return
+	} else if episodeType == EpisodeTypeFull || episodeType == EpisodeTypeTrailer || episodeType == EpisodeTypeBonus {
+		i.EpisodeType = episodeType
+	}
+
+	return
 }
 
 // AddImage adds the image as an iTunes-only IImage.  RSS 2.0 does not have
@@ -81,6 +102,14 @@ func (i *Item) AddImage(url string) {
 func (i *Item) AddPubDate(datetime *time.Time) {
 	i.PubDate = datetime
 	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
+}
+
+func (i *Item) AddSeasonNumber(seasonNumber int64) {
+	if seasonNumber <= 0 {
+		return
+	}
+
+	i.SeasonNumber = strconv.FormatInt(seasonNumber, 10)
 }
 
 // AddSummary adds the iTunes summary.
