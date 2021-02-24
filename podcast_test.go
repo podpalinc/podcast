@@ -51,18 +51,32 @@ func TestNewNils(t *testing.T) {
 	assert.True(t, now >= p.LastBuildDate)
 }
 
-func TestAddAuthorEmailEmpty(t *testing.T) {
+func TestAddAuthorEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
 	p := podcast.New("title", "link", "description", nil, nil)
 
 	// act
-	p.AddAuthor("", "")
+	p.AddAuthor([]string{})
 
 	// assert
-	assert.Len(t, p.ManagingEditor, 0)
+	// assert.Len(t, p.ManagingEditor, 0)
 	assert.Len(t, p.IAuthor, 0)
+}
+
+func TestAddAuthor(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	// act
+	p.AddAuthor([]string{"Joe", "Lisa", "Aaron Woods"})
+
+	// assert
+	// assert.Len(t, p.ManagingEditor, 0)
+	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron Woods")
 }
 
 func TestAddAtomLinkHrefEmpty(t *testing.T) {
@@ -362,10 +376,10 @@ func TestAddItemAuthor(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	theAuthor := podcast.Author{Name: "Jane Doe", Email: "me@janedoe.com"}
+	// theAuthor := podcast.Author{Name: "Jane Doe", Email: "me@janedoe.com"}
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc", Link: "http://a.co/"}
-	i.Author = &theAuthor
+	// i.Author = &theAuthor
 
 	// act
 	added, err := p.AddItem(i)
@@ -374,8 +388,8 @@ func TestAddItemAuthor(t *testing.T) {
 	assert.EqualValues(t, 1, added)
 	assert.NoError(t, err)
 	assert.Len(t, p.Items, 1)
-	assert.EqualValues(t, &theAuthor, p.Items[0].Author)
-	assert.EqualValues(t, theAuthor.Email, p.Items[0].IAuthor)
+	// assert.EqualValues(t, &theAuthor, p.Items[0].Author)
+	// assert.EqualValues(t, theAuthor.Email, p.Items[0].IAuthor)
 }
 
 func TestAddItemRootManagingEditorSetsAuthorIAuthor(t *testing.T) {
@@ -394,7 +408,7 @@ func TestAddItemRootManagingEditorSetsAuthorIAuthor(t *testing.T) {
 	assert.EqualValues(t, 1, added)
 	assert.NoError(t, err)
 	assert.Len(t, p.Items, 1)
-	assert.EqualValues(t, theAuthor, p.Items[0].Author.Email)
+	// assert.EqualValues(t, theAuthor, p.Items[0].Author.Email)
 	assert.EqualValues(t, theAuthor, p.Items[0].IAuthor)
 }
 
@@ -413,8 +427,30 @@ func TestAddItemRootIAuthorSetsAuthorIAuthor(t *testing.T) {
 	assert.EqualValues(t, 1, added)
 	assert.NoError(t, err)
 	assert.Len(t, p.Items, 1)
-	assert.EqualValues(t, "me@janedoe.com", p.Items[0].Author.Email)
+	// assert.EqualValues(t, "me@janedoe.com", p.Items[0].Author.Email)
 	assert.EqualValues(t, "me@janedoe.com", p.Items[0].IAuthor)
+}
+
+func TestAddShowTypeEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesType("")
+
+	assert.Len(t, p.IType, 0)
+}
+
+func TestAddShowType(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesType("episodic")
+
+	assert.Equal(t, "episodic", p.IType)
 }
 
 func TestAddNewFeedURLEmpty(t *testing.T) {
@@ -550,13 +586,3 @@ func TestEncodeWriterError(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "w.Write return error")
 }
-
-// func TestPodcastWrapperXMLNameEmpty(t *testing.T) {
-// 	t.Parallel()
-
-// 	p := podcast.New("title", "desc", "Link", nil, nil)
-
-// 	pw := podcast.NewWrapper(&p)
-
-// 	assert.Equal(t, pw.XMLName, )
-// }

@@ -48,6 +48,7 @@ type Podcast struct {
 	ITitle      string `xml:"itunes:title,omitempty"`
 	IAuthor     string `xml:"itunes:author,omitempty"`
 	ISubtitle   string `xml:"itunes:subtitle,omitempty"`
+	IType       string `xml:"itunes:type,omitempty"`
 	ISummary    *ISummary
 	IBlock      string `xml:"itunes:block,omitempty"`
 	IImage      *IImage
@@ -84,15 +85,27 @@ func New(title, link, description string,
 }
 
 // AddAuthor adds the specified Author to the podcast.
-func (p *Podcast) AddAuthor(name, email string) {
-	if len(email) == 0 {
-		return
+// func (p *Podcast) AddAuthor(name, email string) {
+// 	if len(email) == 0 {
+// 		return
+// 	}
+// 	p.ManagingEditor = parseAuthorNameEmail(&Author{
+// 		Name:  name,
+// 		Email: email,
+// 	})
+// 	p.IAuthor = p.ManagingEditor
+// }
+func (p *Podcast) AddAuthor(authors []string) {
+	combinedAuthors := ""
+	for i, author := range authors {
+		if i == len(authors)-1 {
+			combinedAuthors += author
+		} else {
+			combinedAuthors += author + ", "
+		}
 	}
-	p.ManagingEditor = parseAuthorNameEmail(&Author{
-		Name:  name,
-		Email: email,
-	})
-	p.IAuthor = p.ManagingEditor
+
+	p.IAuthor = combinedAuthors
 }
 
 // AddAtomLink adds a FQDN reference to an atom feed.
@@ -482,7 +495,7 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 	// corrective actions and overrides
 	//
 	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
-	i.AuthorFormatted = parseAuthorNameEmail(i.Author)
+	// i.AuthorFormatted = parseAuthorNameEmail(i.Author)
 	if i.Enclosure != nil {
 		if len(i.GUID) == 0 {
 			i.GUID = i.Enclosure.URL // yep, GUID is the Permlink URL
@@ -507,13 +520,13 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 	//
 	if len(i.IAuthor) == 0 {
 		switch {
-		case i.Author != nil:
-			i.IAuthor = i.Author.Email
+		// case i.Author != nil:
+		// 	i.IAuthor = i.Author.Email
 		case len(p.IAuthor) != 0:
-			i.Author = &Author{Email: p.IAuthor}
+			// i.Author = &Author{Email: p.IAuthor}
 			i.IAuthor = p.IAuthor
 		case len(p.ManagingEditor) != 0:
-			i.Author = &Author{Email: p.ManagingEditor}
+			// i.Author = &Author{Email: p.ManagingEditor}
 			i.IAuthor = p.ManagingEditor
 		}
 	}
@@ -535,11 +548,11 @@ func (p *Podcast) AddItunesTitle(title string) {
 	p.ITitle = title
 }
 
-func (p *Podcast) AddNewFeedURL(newFeedUrl string) {
-	if len(newFeedUrl) == 0 {
-		return
-	}
+func (p *Podcast) AddItunesType(showType string) {
+	p.IType = showType
+}
 
+func (p *Podcast) AddNewFeedURL(newFeedUrl string) {
 	p.INewFeedURL = newFeedUrl
 }
 

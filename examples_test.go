@@ -24,13 +24,13 @@ func ExamplePodcast_AddAuthor() {
 	p := podcast.New("title", "link", "description", nil, nil)
 
 	// add the Author
-	p.AddAuthor("the name", "me@test.com")
+	// p.AddAuthor("the name", "me@test.com")
+	p.AddAuthor([]string{"the name"})
 
 	fmt.Println(p.ManagingEditor)
 	fmt.Println(p.IAuthor)
 	// Output:
-	// me@test.com (the name)
-	// me@test.com (the name)
+	// the name
 }
 
 func ExamplePodcast_AddCategory() {
@@ -65,7 +65,8 @@ func ExamplePodcast_AddImage() {
 
 func ExamplePodcast_AddItem() {
 	p := podcast.New("title", "link", "description", &pubDate, &updatedDate)
-	p.AddAuthor("the name", "me@test.com")
+	// p.AddAuthor("the name", "me@test.com")
+	p.AddAuthor([]string{"the name"})
 	p.AddImage("http://example.com/image.jpg")
 
 	// create an Item
@@ -93,13 +94,13 @@ func ExamplePodcast_AddItem() {
 	}
 	pp := p.Items[0]
 	fmt.Println(
-		pp.GUID, pp.Title, pp.Link, pp.Description, pp.Author,
+		pp.GUID, pp.Title, pp.Link, pp.Description,
 		pp.AuthorFormatted, pp.Category, pp.Comments, pp.Source,
 		pp.PubDate, pp.PubDateFormatted, *pp.Enclosure,
 		pp.IAuthor, pp.IDuration, pp.IExplicit, pp.IIsClosedCaptioned,
 		pp.IOrder, pp.ISubtitle, pp.ISummary)
 	// Output:
-	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1 &{{ }  me@test.com (the name)}     2017-04-22 08:21:52 +0000 UTC Sat, 22 Apr 2017 08:21:52 +0000 {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} me@test.com (the name)     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
+	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1     2017-04-22 08:21:52 +0000 UTC Sat, 22 Apr 2017 08:21:52 +0000 {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} the name     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
 }
 
 func ExamplePodcast_AddLastBuildDate() {
