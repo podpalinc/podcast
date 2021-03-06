@@ -457,6 +457,28 @@ func TestAddItemRootIAuthorSetsAuthorIAuthor(t *testing.T) {
 	assert.EqualValues(t, "me@janedoe.com", p.Items[0].IAuthor)
 }
 
+func TestAddBlockEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesBlock("")
+
+	assert.Equal(t, p.IBlock, "No")
+}
+
+func TestAddBlockHide(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesBlock("hide")
+
+	assert.Equal(t, p.IBlock, "Yes")
+}
+
 func TestAddShowTypeEmpty(t *testing.T) {
 	t.Parallel()
 

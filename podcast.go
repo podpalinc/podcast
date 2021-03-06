@@ -547,6 +547,14 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 	return len(p.Items), nil
 }
 
+func (p *Podcast) AddItunesBlock(block string) {
+	if block == "hide" {
+		p.IBlock = "Yes"
+	} else {
+		p.IBlock = "No"
+	}
+}
+
 func (p *Podcast) AddItunesTitle(title string) {
 	if len(title) == 0 {
 		return
