@@ -54,6 +54,38 @@ type Item struct {
 	IOrder             string `xml:"itunes:order,omitempty"`
 }
 
+func (i *Item) AddGUID(guid string) {
+	if len(guid) <= 0 {
+		return
+	}
+
+	i.GUID = guid
+}
+
+func (i *Item) AddTitle(title string) {
+	if len(title) <= 0 {
+		return
+	}
+
+	i.Title = title
+}
+
+func (i *Item) AddLink(link string) {
+	if len(link) <= 0 {
+		return
+	}
+
+	i.Link = link
+}
+
+func (i *Item) AddDescription(desc string) {
+	if len(desc) <= 0 {
+		return
+	}
+
+	i.Description = desc
+}
+
 // AddEnclosure adds the downloadable asset to the podcast Item.
 func (i *Item) AddEnclosure(
 	url string, enclosureType EnclosureType, lengthInBytes int64) {

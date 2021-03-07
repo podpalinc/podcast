@@ -7,6 +7,98 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestAddGUIDEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddGUID("")
+
+	assert.Len(t, i.GUID, 0)
+}
+
+func TestAddGUID(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddGUID("987654321e7a8183nrknmfd9asfdsg")
+
+	assert.Equal(t, i.GUID, "987654321e7a8183nrknmfd9asfdsg")
+}
+
+func TestAddTitleEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddTitle("")
+
+	assert.Len(t, i.Title, 0)
+}
+
+func TestAddTitle(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddTitle("Title")
+
+	assert.Equal(t, i.Title, "Title")
+}
+
+func TestAddLinkEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddLink("")
+
+	assert.Len(t, i.Link, 0)
+}
+
+func TestAddLink(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	link := "https://google.com"
+
+	i.AddLink(link)
+
+	assert.Equal(t, i.Link, link)
+}
+
+func TestAddDescriptionEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	i.AddDescription("")
+
+	assert.Len(t, i.Description, 0)
+}
+
+func TestAddDescription(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{}
+
+	desc := "This is a sample description"
+
+	i.AddDescription(desc)
+
+	assert.Equal(t, i.Description, desc)
+}
+
 func TestAddEpisodeNumberInvalid(t *testing.T) {
 	t.Parallel()
 
