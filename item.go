@@ -47,6 +47,7 @@ type Item struct {
 	ISubtitle          string `xml:"itunes:subtitle,omitempty"`
 	ISummary           *ISummary
 	IImage             *IImage
+	IBlock             string `xml:"itunes:block,omitempty"`
 	IDuration          string `xml:"itunes:duration,omitempty"`
 	IExplicit          string `xml:"itunes:explicit,omitempty"`
 	IIsClosedCaptioned string `xml:"itunes:isClosedCaptioned,omitempty"`
@@ -93,6 +94,14 @@ func (i *Item) AddEpisodeType(episodeType string) {
 func (i *Item) AddImage(url string) {
 	if len(url) > 0 {
 		i.IImage = &IImage{HREF: url}
+	}
+}
+
+func (i *Item) AddItunesBlock(block string) {
+	if block == "hide" {
+		i.IBlock = "Yes"
+	} else {
+		i.IBlock = "No"
 	}
 }
 

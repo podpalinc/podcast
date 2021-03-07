@@ -148,6 +148,51 @@ func TestItemAddSummaryTooLong(t *testing.T) {
 	assert.Len(t, i.ISummary.Text, 4000)
 }
 
+func TestAddEpisodeBlockEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	// arrange
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+	summary := ""
+	for {
+		if len(summary) >= 4051 {
+			break
+		}
+		summary += "abc ss 5 "
+	}
+
+	i.AddItunesBlock("")
+
+	assert.Equal(t, i.IBlock, "No")
+}
+
+func TestAddEpisodeBlockHide(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+	summary := ""
+	for {
+		if len(summary) >= 4051 {
+			break
+		}
+		summary += "abc ss 5 "
+	}
+
+	i.AddItunesBlock("hide")
+
+	assert.Equal(t, i.IBlock, "Yes")
+}
+
 func TestAddSeasonNumberInvalid(t *testing.T) {
 	t.Parallel()
 
