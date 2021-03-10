@@ -14,7 +14,7 @@ type Image struct {
 	XMLName     xml.Name `xml:"image"`
 	URL         string   `xml:"url"`
 	Title       string   `xml:"title"`
-	Link        string   `xml:"link"`
+	Link        string   `xml:"link,omitempty"`
 	Description string   `xml:"description,omitempty"`
 	Width       int      `xml:"width,omitempty"`
 	Height      int      `xml:"height,omitempty"`
