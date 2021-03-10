@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+	"strings"
 	"time"
 	"unicode/utf8"
 
@@ -265,7 +266,7 @@ func ParseCategories(categories []string) map[string][]string {
 
 	var findPodcastCategory = func(category string) *podcastCategory {
 		for _, pc := range PODCAST_CATEGORIES {
-			if pc.Name == category {
+			if &pc != nil && pc.Name == category {
 				return &pc
 			}
 		}
@@ -276,10 +277,11 @@ func ParseCategories(categories []string) map[string][]string {
 
 	for _, category := range categories {
 		pc := findPodcastCategory(category)
-		if pc.ParentCategory != "" {
-			parsedCategories[pc.ParentCategory] = append(parsedCategories[pc.ParentCategory], pc.Name)
+		if &pc != nil && pc.ParentCategory != "" {
+			parentCat := strings.Replace(pc.ParentCategory, "&", "&amp;", -1)
+			parsedCategories[parentCat] = append(parsedCategories[parentCat], strings.Replace(pc.Name, "&", "&amp;", -1))
 		} else {
-			parsedCategories[pc.Name] = []string{}
+			parsedCategories[strings.Replace(pc.Name, "&", "&amp;", -1)] = []string{}
 		}
 	}
 
