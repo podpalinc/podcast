@@ -25,7 +25,7 @@ const (
 type Podcast struct {
 	XMLName        xml.Name `xml:"channel"`
 	Title          string   `xml:"title"`
-	Link           string   `xml:"link"`
+	Link           string   `xml:"link,omitempty"`
 	Description    string   `xml:"description"`
 	Category       string   `xml:"category,omitempty"`
 	Cloud          string   `xml:"cloud,omitempty"`
@@ -567,6 +567,14 @@ func (p *Podcast) AddItunesTitle(title string) {
 
 func (p *Podcast) AddItunesType(showType string) {
 	p.IType = showType
+}
+
+func (p *Podcast) AddLink(link string) {
+	if len(link) == 0 {
+		return
+	}
+
+	p.Link = link
 }
 
 func (p *Podcast) AddNewFeedURL(newFeedUrl string) {

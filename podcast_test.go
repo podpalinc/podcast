@@ -503,6 +503,28 @@ func TestAddShowType(t *testing.T) {
 	assert.Equal(t, "episodic", p.IType)
 }
 
+func TestAddPodcastLinkEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("", "", "", nil, nil)
+
+	p.AddLink("")
+
+	assert.Len(t, p.Link, 0)
+}
+
+func TestAddPodcastLink(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("", "", "", nil, nil)
+
+	p.AddLink("https://google.com")
+
+	assert.Equal(t, p.Link, "https://google.com")
+}
+
 func TestAddNewFeedURLEmpty(t *testing.T) {
 	t.Parallel()
 
