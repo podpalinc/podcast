@@ -512,6 +512,7 @@ func TestAddPodcastLinkEmpty(t *testing.T) {
 	p.AddLink("")
 
 	assert.Len(t, p.Link, 0)
+	assert.Equal(t, p.Link, "")
 }
 
 func TestAddPodcastLink(t *testing.T) {
