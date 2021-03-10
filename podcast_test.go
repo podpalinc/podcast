@@ -174,13 +174,14 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 func TestParseCategories(t *testing.T) {
 	t.Parallel()
 
-	out := podcast.ParseCategories([]string{"Arts", "Books", "Religion & Spirituality", "Christianity", "Buddhism", "Sports", "Health & Fitness"})
+	out := podcast.ParseCategories([]string{"Arts", "Books", "Religion & Spirituality", "Christianity", "Buddhism", "Sports", "Health & Fitness", "Documentary"})
 
 	expected := map[string][]string{
 		"Arts":                        []string{"Books"},
 		"Religion &amp; Spirituality": []string{"Christianity", "Buddhism"},
 		"Sports":                      []string{},
 		"Health &amp; Fitness":        []string{},
+		"Society &amp; Culture":       []string{"Documentary"},
 	}
 
 	assert.EqualValues(t, expected, out)
