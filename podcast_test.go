@@ -481,6 +481,28 @@ func TestAddBlockHide(t *testing.T) {
 	assert.Equal(t, p.IBlock, "Yes")
 }
 
+func TestAddCompleteEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesComplete("")
+
+	assert.Equal(t, p.IComplete, "No")
+}
+
+func TestAddComplete(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesComplete("complete")
+
+	assert.Equal(t, p.IComplete, "Yes")
+}
+
 func TestAddShowTypeEmpty(t *testing.T) {
 	t.Parallel()
 

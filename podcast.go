@@ -557,6 +557,14 @@ func (p *Podcast) AddItunesBlock(block string) {
 	}
 }
 
+func (p *Podcast) AddItunesComplete(complete string) {
+	if complete == "complete" {
+		p.IComplete = "Yes"
+	} else {
+		p.IComplete = "No"
+	}
+}
+
 func (p *Podcast) AddItunesTitle(title string) {
 	if len(title) == 0 {
 		return
