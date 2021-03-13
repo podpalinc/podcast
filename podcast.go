@@ -438,7 +438,6 @@ func (p *Podcast) AddImage(url string) {
 		Title: p.Title,
 		Link:  p.Link,
 	}
-	p.IImage = &IImage{HREF: url}
 }
 
 // AddItem adds the podcast episode.  It returns a count of Items added or any
@@ -563,6 +562,14 @@ func (p *Podcast) AddItunesComplete(complete string) {
 	} else {
 		p.IComplete = "No"
 	}
+}
+
+func (p *Podcast) AddItunesImage(url string) {
+	if len(url) == 0 {
+		return
+	}
+
+	p.IImage = &IImage{HREF: url}
 }
 
 func (p *Podcast) AddItunesTitle(title string) {

@@ -228,7 +228,18 @@ func TestAddImageEmpty(t *testing.T) {
 
 	// assert
 	assert.Nil(t, p.Image)
-	assert.Nil(t, p.IImage)
+}
+
+func TestAddImage(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	// act
+	p.AddImage("https://google.com")
+
+	assert.Equal(t, p.Image.URL, "https://google.com")
 }
 
 func TestAddItemEmptyTitleDescription(t *testing.T) {
@@ -501,6 +512,28 @@ func TestAddComplete(t *testing.T) {
 	p.AddItunesComplete("complete")
 
 	assert.Equal(t, p.IComplete, "Yes")
+}
+
+func TestAddItunesImageEmpty(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesImage("")
+
+	assert.Nil(t, p.IImage)
+}
+
+func TestAddItunesImage(t *testing.T) {
+	t.Parallel()
+
+	// arrange
+	p := podcast.New("title", "link", "description", nil, nil)
+
+	p.AddItunesImage("https://google.com")
+
+	assert.Equal(t, p.IImage.HREF, "https://google.com")
 }
 
 func TestAddShowTypeEmpty(t *testing.T) {

@@ -54,12 +54,10 @@ func ExamplePodcast_AddImage() {
 	// add the Image
 	p.AddImage("http://example.com/image.jpg")
 
-	if p.Image != nil && p.IImage != nil {
+	if p.Image != nil {
 		fmt.Println(p.Image.URL)
-		fmt.Println(p.IImage.HREF)
 	}
 	// Output:
-	// http://example.com/image.jpg
 	// http://example.com/image.jpg
 }
 
