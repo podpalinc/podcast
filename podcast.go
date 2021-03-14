@@ -33,9 +33,7 @@ type Podcast struct {
 	Docs           string   `xml:"docs,omitempty"`
 	Generator      string   `xml:"generator,omitempty"`
 	Language       string   `xml:"language,omitempty"`
-	LastBuildDate  string   `xml:"lastBuildDate,omitempty"`
 	ManagingEditor string   `xml:"managingEditor,omitempty"`
-	PubDate        string   `xml:"pubDate,omitempty"`
 	Rating         string   `xml:"rating,omitempty"`
 	SkipHours      string   `xml:"skipHours,omitempty"`
 	SkipDays       string   `xml:"skipDays,omitempty"`
@@ -75,11 +73,6 @@ func New(title, link, description string,
 		Title:       title,
 		Link:        link,
 		Description: description,
-		// Generator:     fmt.Sprintf("go podcast v%s (github.com/eduncan911/podcast)", pVersion),
-		PubDate:       parseDateRFC1123Z(pubDate),
-		LastBuildDate: parseDateRFC1123Z(lastBuildDate),
-		// Language:      "en-us",
-
 		// setup dependency (could inject later)
 		encode: encoder,
 	}
@@ -607,19 +600,19 @@ func (p *Podcast) AddOwner(name, email string) {
 	}
 }
 
-// AddPubDate adds the datetime as a parsed PubDate.
-//
-// UTC time is used by default.
-func (p *Podcast) AddPubDate(datetime *time.Time) {
-	p.PubDate = parseDateRFC1123Z(datetime)
-}
+// // AddPubDate adds the datetime as a parsed PubDate.
+// //
+// // UTC time is used by default.
+// func (p *Podcast) AddPubDate(datetime *time.Time) {
+// 	p.PubDate = parseDateRFC1123Z(datetime)
+// }
 
-// AddLastBuildDate adds the datetime as a parsed PubDate.
-//
-// UTC time is used by default.
-func (p *Podcast) AddLastBuildDate(datetime *time.Time) {
-	p.LastBuildDate = parseDateRFC1123Z(datetime)
-}
+// // AddLastBuildDate adds the datetime as a parsed PubDate.
+// //
+// // UTC time is used by default.
+// func (p *Podcast) AddLastBuildDate(datetime *time.Time) {
+// 	p.LastBuildDate = parseDateRFC1123Z(datetime)
+// }
 
 // AddSubTitle adds the iTunes subtitle that is displayed with the title
 // in iTunes.

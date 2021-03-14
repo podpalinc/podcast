@@ -14,10 +14,8 @@ func ExampleNew() {
 	p.AddLanguage("en-us")
 
 	fmt.Println(p.Title, p.Link, p.Description, p.Language)
-	fmt.Println(p.PubDate, p.LastBuildDate)
 	// Output:
 	// title link description en-us
-	// Sat, 04 Feb 2017 08:21:52 +0000 Mon, 06 Feb 2017 08:21:52 +0000
 }
 
 func ExamplePodcast_AddAuthor() {
@@ -100,29 +98,6 @@ func ExamplePodcast_AddItem() {
 	// Output:
 	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1     2017-04-22 08:21:52 +0000 UTC Sat, 22 Apr 2017 08:21:52 +0000 {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} the name     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
 }
-
-func ExamplePodcast_AddLastBuildDate() {
-	p := podcast.New("title", "link", "description", nil, nil)
-	d := pubDate.AddDate(0, 0, -7)
-
-	p.AddLastBuildDate(&d)
-
-	fmt.Println(p.LastBuildDate)
-	// Output:
-	// Sat, 28 Jan 2017 08:21:52 +0000
-}
-
-func ExamplePodcast_AddPubDate() {
-	p := podcast.New("title", "link", "description", nil, nil)
-	d := pubDate.AddDate(0, 0, -5)
-
-	p.AddPubDate(&d)
-
-	fmt.Println(p.PubDate)
-	// Output:
-	// Mon, 30 Jan 2017 08:21:52 +0000
-}
-
 func ExamplePodcast_AddSummary() {
 	p := podcast.New("title", "link", "description", nil, nil)
 

@@ -28,8 +28,6 @@ func TestNewNonNils(t *testing.T) {
 	assert.EqualValues(t, ti, p.Title)
 	assert.EqualValues(t, l, p.Link)
 	assert.EqualValues(t, d, p.Description)
-	assert.True(t, createdDate.Format(time.RFC1123Z) >= p.PubDate)
-	assert.True(t, updatedDate.Format(time.RFC1123Z) >= p.LastBuildDate)
 }
 
 func TestNewNils(t *testing.T) {
@@ -42,13 +40,9 @@ func TestNewNils(t *testing.T) {
 	p := podcast.New(ti, l, d, nil, nil)
 
 	// assert
-	now := time.Now().UTC().Format(time.RFC1123Z)
 	assert.EqualValues(t, ti, p.Title)
 	assert.EqualValues(t, l, p.Link)
 	assert.EqualValues(t, d, p.Description)
-	// ensure time.Now().UTC() is set, or close to it
-	assert.True(t, now >= p.PubDate)
-	assert.True(t, now >= p.LastBuildDate)
 }
 
 func TestAddAuthorEmpty(t *testing.T) {
