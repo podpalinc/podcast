@@ -216,6 +216,34 @@ func TestAddEpisodeParentalAdvisoryClean(t *testing.T) {
 	assert.EqualValues(t, i.IExplicit, "false")
 }
 
+func TestAddPubDateEmpty(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddPubDate("")
+
+	assert.Len(t, i.PubDateFormatted, 0)
+}
+
+func TestAddPubDate(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddPubDate("Sun, 14 Mar 2021 18:34:05 +0000")
+
+	assert.Equal(t, i.PubDateFormatted, "Sun, 14 Mar 2021 18:34:05 +0000")
+}
+
 func TestItemAddSummaryTooLong(t *testing.T) {
 	t.Parallel()
 

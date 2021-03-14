@@ -41,6 +41,7 @@ type Item struct {
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	IAuthor            string `xml:"itunes:author,omitempty"`
+	ITitle             string `xml:"itunes:title,omitempty"`
 	SeasonNumber       string `xml:"itunes:season,omitempty"`
 	EpisodeNumber      string `xml:"itunes:episode,omitempty"`
 	EpisodeType        string `xml:"itunes:episodeType,omitempty"`
@@ -150,9 +151,18 @@ func (i *Item) AddParentalAdvisory(parentalAdvisory string) {
 // AddPubDate adds the datetime as a parsed PubDate.
 //
 // UTC time is used by default.
-func (i *Item) AddPubDate(datetime *time.Time) {
-	i.PubDate = datetime
-	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
+// func (i *Item) AddPubDate(datetime *time.Time) {
+// 	i.PubDate = datetime
+// 	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
+// }
+
+func (i *Item) AddPubDate(datetime string) {
+
+	if len(datetime) == 0 {
+		return
+	}
+
+	i.PubDateFormatted = datetime
 }
 
 func (i *Item) AddSeasonNumber(seasonNumber int64) {
