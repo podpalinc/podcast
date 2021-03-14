@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"strconv"
-	"time"
 	"unicode/utf8"
 )
 
@@ -26,18 +25,17 @@ import (
 // - Always set an Enclosure.Length, to be nice to your downloaders.
 // - Use Enclosure.Type instead of setting TypeFormatted for valid extensions.
 type Item struct {
-	XMLName          xml.Name   `xml:"item"`
-	GUID             string     `xml:"guid"`
-	Title            string     `xml:"title"`
-	Link             string     `xml:"link"`
-	Description      string     `xml:"description"`
-	AuthorFormatted  string     `xml:"author,omitempty"`
-	Category         string     `xml:"category,omitempty"`
-	Comments         string     `xml:"comments,omitempty"`
-	Source           string     `xml:"source,omitempty"`
-	PubDate          *time.Time `xml:"-"`
-	PubDateFormatted string     `xml:"pubDate,omitempty"`
-	Enclosure        *Enclosure
+	XMLName         xml.Name `xml:"item"`
+	GUID            string   `xml:"guid"`
+	Title           string   `xml:"title"`
+	Link            string   `xml:"link"`
+	Description     string   `xml:"description"`
+	AuthorFormatted string   `xml:"author,omitempty"`
+	Category        string   `xml:"category,omitempty"`
+	Comments        string   `xml:"comments,omitempty"`
+	Source          string   `xml:"source,omitempty"`
+	PubDate         string   `xml:"pubDate,omitempty"`
+	Enclosure       *Enclosure
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	IAuthor            string `xml:"itunes:author,omitempty"`
@@ -148,21 +146,13 @@ func (i *Item) AddParentalAdvisory(parentalAdvisory string) {
 	return
 }
 
-// AddPubDate adds the datetime as a parsed PubDate.
-//
-// UTC time is used by default.
-// func (i *Item) AddPubDate(datetime *time.Time) {
-// 	i.PubDate = datetime
-// 	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
-// }
-
 func (i *Item) AddPubDate(datetime string) {
 
 	if len(datetime) == 0 {
 		return
 	}
 
-	i.PubDateFormatted = datetime
+	i.PubDate = datetime
 }
 
 func (i *Item) AddSeasonNumber(seasonNumber int64) {
@@ -224,11 +214,4 @@ var parseDuration = func(duration int64) string {
 
 	// M:SS
 	return fmt.Sprintf("%d:%02d", m, s)
-}
-
-var parseDateRFC1123Z = func(t *time.Time) string {
-	if t != nil && !t.IsZero() {
-		return t.Format(time.RFC1123Z)
-	}
-	return time.Now().UTC().Format(time.RFC1123Z)
 }

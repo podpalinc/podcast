@@ -227,7 +227,7 @@ func TestAddPubDateEmpty(t *testing.T) {
 
 	i.AddPubDate("")
 
-	assert.Len(t, i.PubDateFormatted, 0)
+	assert.Len(t, i.PubDate, 0)
 }
 
 func TestAddPubDate(t *testing.T) {
@@ -241,7 +241,7 @@ func TestAddPubDate(t *testing.T) {
 
 	i.AddPubDate("Sun, 14 Mar 2021 18:34:05 +0000")
 
-	assert.Equal(t, i.PubDateFormatted, "Sun, 14 Mar 2021 18:34:05 +0000")
+	assert.Equal(t, i.PubDate, "Sun, 14 Mar 2021 18:34:05 +0000")
 }
 
 func TestItemAddSummaryTooLong(t *testing.T) {

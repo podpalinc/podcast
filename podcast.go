@@ -495,7 +495,6 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 
 	// corrective actions and overrides
 	//
-	i.PubDateFormatted = parseDateRFC1123Z(i.PubDate)
 	// i.AuthorFormatted = parseAuthorNameEmail(i.Author)
 	if i.Enclosure != nil {
 		if len(i.GUID) == 0 {
@@ -599,20 +598,6 @@ func (p *Podcast) AddOwner(name, email string) {
 		Email: email,
 	}
 }
-
-// // AddPubDate adds the datetime as a parsed PubDate.
-// //
-// // UTC time is used by default.
-// func (p *Podcast) AddPubDate(datetime *time.Time) {
-// 	p.PubDate = parseDateRFC1123Z(datetime)
-// }
-
-// // AddLastBuildDate adds the datetime as a parsed PubDate.
-// //
-// // UTC time is used by default.
-// func (p *Podcast) AddLastBuildDate(datetime *time.Time) {
-// 	p.LastBuildDate = parseDateRFC1123Z(datetime)
-// }
 
 // AddSubTitle adds the iTunes subtitle that is displayed with the title
 // in iTunes.

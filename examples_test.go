@@ -66,12 +66,10 @@ func ExamplePodcast_AddItem() {
 	p.AddImage("http://example.com/image.jpg")
 
 	// create an Item
-	date := pubDate.AddDate(0, 0, 77)
 	item := podcast.Item{
 		Title:       "Episode 1",
 		Description: "Description for Episode 1",
 		ISubtitle:   "A simple episode 1",
-		PubDate:     &date,
 	}
 	item.AddEnclosure(
 		"http://example.com/1.mp3",
@@ -91,12 +89,11 @@ func ExamplePodcast_AddItem() {
 	pp := p.Items[0]
 	fmt.Println(
 		pp.GUID, pp.Title, pp.Link, pp.Description,
-		pp.AuthorFormatted, pp.Category, pp.Comments, pp.Source,
-		pp.PubDate, pp.PubDateFormatted, *pp.Enclosure,
+		pp.AuthorFormatted, pp.Category, pp.Comments, pp.Source, *pp.Enclosure,
 		pp.IAuthor, pp.IDuration, pp.IExplicit, pp.IIsClosedCaptioned,
 		pp.IOrder, pp.ISubtitle, pp.ISummary)
 	// Output:
-	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1     2017-04-22 08:21:52 +0000 UTC Sat, 22 Apr 2017 08:21:52 +0000 {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} the name     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
+	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1     {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} the name     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
 }
 func ExamplePodcast_AddSummary() {
 	p := podcast.New("title", "link", "description", nil, nil)
