@@ -291,6 +291,34 @@ func TestAddEpisodeBlockEmpty(t *testing.T) {
 	assert.Equal(t, i.IBlock, "No")
 }
 
+func TestAddEpisodeItunesTitleEmpty(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddItunesTitle("")
+
+	assert.Len(t, i.ITitle, 0)
+}
+
+func TestAddEpisodeItunesTitle(t *testing.T) {
+	t.Parallel()
+
+	i := podcast.Item{
+		Title:       "item.title",
+		Description: "item.desc",
+		Link:        "http://example.com/article.html",
+	}
+
+	i.AddItunesTitle("title")
+
+	assert.Equal(t, i.ITitle, "title")
+}
+
 func TestAddEpisodeBlockHide(t *testing.T) {
 	t.Parallel()
 

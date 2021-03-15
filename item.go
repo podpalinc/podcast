@@ -136,6 +136,14 @@ func (i *Item) AddItunesBlock(block string) {
 	}
 }
 
+func (i *Item) AddItunesTitle(title string) {
+	if len(title) == 0 {
+		return
+	}
+
+	i.ITitle = title
+}
+
 func (i *Item) AddParentalAdvisory(parentalAdvisory string) {
 	if parentalAdvisory == ParentalAdvisoryExplicit {
 		i.IExplicit = "true"
