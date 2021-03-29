@@ -193,7 +193,7 @@ func (i *Item) AddDuration(durationInSeconds int64) {
 	if durationInSeconds <= 0 {
 		return
 	}
-	i.IDuration = parseDuration(durationInSeconds)
+	i.IDuration = fmt.Sprint(durationInSeconds)
 }
 
 var parseDuration = func(duration int64) string {

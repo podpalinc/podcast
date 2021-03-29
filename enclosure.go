@@ -20,6 +20,10 @@ const (
 // EnclosureType specifies the type of the enclosure.
 type EnclosureType int
 
+func (et EnclosureType) EnclosureType(enclosureType string) {
+	
+}
+
 // String returns the MIME type encoding of the specified EnclosureType.
 func (et EnclosureType) String() string {
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390

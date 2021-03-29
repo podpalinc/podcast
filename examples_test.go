@@ -234,5 +234,5 @@ func ExampleItem_AddDuration() {
 
 	fmt.Println(i.IDuration)
 	// Output:
-	// 8:53
+	// 533
 }
