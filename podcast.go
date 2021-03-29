@@ -484,7 +484,7 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 			return len(p.Items),
 				errors.New(i.Title + ": Enclosure.URL is required")
 		}
-		if i.Enclosure.Type.String() == enclosureDefault {
+		if i.Enclosure.TypeFormatted == enclosureDefault {
 			return len(p.Items),
 				errors.New(i.Title + ": Enclosure.Type is required")
 		}

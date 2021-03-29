@@ -260,7 +260,7 @@ func TestAddItemEmptyEnclosureURL(t *testing.T) {
 	// arrange
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc"}
-	i.AddEnclosure("", podcast.MP3, 1)
+	i.AddEnclosure("", "audio/mpeg", 1)
 
 	// act
 	added, err := p.AddItem(i)
@@ -277,7 +277,7 @@ func TestAddItemEmptyEnclosureType(t *testing.T) {
 	// arrange
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc"}
-	i.AddEnclosure("http://example.com/1.mp3", 99, 1)
+	i.AddEnclosure("http://example.com/1.mp3", "application/octet-stream", 1)
 
 	// act
 	added, err := p.AddItem(i)
@@ -310,7 +310,7 @@ func TestAddItemEnclosureLengthMin(t *testing.T) {
 	// arrange
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc"}
-	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, -1)
+	i.AddEnclosure("http://example.com/1.mp3", "audio/mpeg", -1)
 
 	// act
 	added, err := p.AddItem(i)
@@ -328,7 +328,7 @@ func TestAddItemEnclosureNoLinkOverride(t *testing.T) {
 	// arrange
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc"}
-	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, -1)
+	i.AddEnclosure("http://example.com/1.mp3", "audio/mpeg", -1)
 
 	// act
 	added, err := p.AddItem(i)
@@ -348,7 +348,7 @@ func TestAddItemEnclosureLinkPresentNoOverride(t *testing.T) {
 	p := podcast.New("title", "link", "description", nil, nil)
 	i := podcast.Item{Title: "title", Description: "desc"}
 	i.Link = theLink
-	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, -1)
+	i.AddEnclosure("http://example.com/1.mp3", "audio/mpeg", -1)
 
 	// act
 	added, err := p.AddItem(i)
@@ -392,7 +392,7 @@ func TestAddItemWithEnclosureGUIDSet(t *testing.T) {
 		Description: "desc",
 		GUID:        theGUID,
 	}
-	i.AddEnclosure(theLink, podcast.MP3, int64(length))
+	i.AddEnclosure(theLink, "audio/mpeg", int64(length))
 
 	// act
 	added, err := p.AddItem(i)
