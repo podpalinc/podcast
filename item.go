@@ -87,10 +87,11 @@ func (i *Item) AddDescription(desc string) {
 
 // AddEnclosure adds the downloadable asset to the podcast Item.
 func (i *Item) AddEnclosure(
-	url string, enclosureType string, lengthInBytes int64) {
+	url string, enclosureType EnclosureType, enclosureTypeString string, lengthInBytes int64) {
 	i.Enclosure = &Enclosure{
 		URL:           url,
-		TypeFormatted: enclosureType,
+		Type:          enclosureType,
+		TypeFormatted: enclosureTypeString,
 		Length:        lengthInBytes,
 	}
 }

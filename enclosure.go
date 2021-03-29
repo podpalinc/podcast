@@ -1,6 +1,8 @@
 package podcast
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // EnclosureType specifies the type of the enclosure.
 const (
@@ -20,8 +22,18 @@ const (
 // EnclosureType specifies the type of the enclosure.
 type EnclosureType int
 
-func (et EnclosureType) EnclosureType(enclosureType string) {
-	
+func (et EnclosureType) GetEnclosureType(enclosureType string) EnclosureType {
+	switch enclosureType {
+	case "audio/x-m4a":
+		return M4A
+	case "audio/mpeg":
+		return MP3
+	case "video/x-m4v":
+		return M4V
+	case "video/mp4":
+		return MP4
+	}
+	return MP3
 }
 
 // String returns the MIME type encoding of the specified EnclosureType.
