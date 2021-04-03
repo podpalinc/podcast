@@ -70,12 +70,20 @@ type Podcast struct {
 func New(title, link, description string,
 	pubDate, lastBuildDate *time.Time) Podcast {
 	return Podcast{
-		Title:       title,
+		Title:       GenerateFeedString(title),
 		Link:        link,
-		Description: description,
+		Description: GenerateFeedString(description),
 		// setup dependency (could inject later)
 		encode: encoder,
 	}
+}
+
+func (p *Podcast) AddTitle(title string) {
+	if len(title) <= 0 {
+		return
+	}
+
+	p.Title = GenerateFeedString(title)
 }
 
 // AddAuthor adds the specified Author to the podcast.
@@ -99,7 +107,7 @@ func (p *Podcast) AddAuthor(authors []string) {
 		}
 	}
 
-	p.IAuthor = combinedAuthors
+	p.IAuthor = GenerateFeedString(combinedAuthors)
 }
 
 // AddAtomLink adds a FQDN reference to an atom feed.
@@ -219,7 +227,7 @@ func (p *Podcast) AddCopyright(copyright string) {
 	if len(copyright) == 0 {
 		return
 	}
-	p.Copyright = copyright
+	p.Copyright = GenerateFeedString(copyright)
 }
 
 type podcastCategory struct {
@@ -271,10 +279,11 @@ func ParseCategories(categories []string) map[string][]string {
 	for _, category := range categories {
 		pc := findPodcastCategory(category)
 		if &pc != nil && pc.ParentCategory != "" {
-			parentCat := strings.Replace(pc.ParentCategory, "&", "&amp;", -1)
+			parentCat := GenerateFeedString(pc.ParentCategory)
 			parsedCategories[parentCat] = append(parsedCategories[parentCat], strings.Replace(pc.Name, "&", "&amp;", -1))
 		} else {
-			parsedCategories[strings.Replace(pc.Name, "&", "&amp;", -1)] = []string{}
+			cat := GenerateFeedString(pc.Name)
+			parsedCategories[cat] = []string{}
 		}
 	}
 
@@ -401,7 +410,7 @@ func (p *Podcast) AddLanguage(language string) {
 		return
 	}
 
-	p.Language = language
+	p.Language = GenerateFeedString(language)
 }
 
 func (p *Podcast) AddParentalAdvisory(parentalAdvisory string) {
@@ -569,7 +578,7 @@ func (p *Podcast) AddItunesTitle(title string) {
 		return
 	}
 
-	p.ITitle = title
+	p.ITitle = GenerateFeedString(title)
 }
 
 func (p *Podcast) AddItunesType(showType string) {
@@ -594,8 +603,8 @@ func (p *Podcast) AddOwner(name, email string) {
 	}
 
 	p.IOwner = &Author{
-		Name:  name,
-		Email: email,
+		Name:  GenerateFeedString(name),
+		Email: GenerateFeedString(email),
 	}
 }
 
@@ -613,7 +622,7 @@ func (p *Podcast) AddSubTitle(subTitle string) {
 		s := []rune(subTitle)
 		subTitle = string(s[0:61]) + "..."
 	}
-	p.ISubtitle = subTitle
+	p.ISubtitle = GenerateFeedString(subTitle)
 }
 
 // AddSummary adds the iTunes summary.
@@ -632,6 +641,7 @@ func (p *Podcast) AddSummary(summary string) {
 		summary = string(s[0:4000])
 	}
 	p.ISummary = &ISummary{
+		// TODO: Perform proper string programming.
 		Text: summary,
 	}
 }

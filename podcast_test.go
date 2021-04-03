@@ -66,11 +66,11 @@ func TestAddAuthor(t *testing.T) {
 	p := podcast.New("title", "link", "description", nil, nil)
 
 	// act
-	p.AddAuthor([]string{"Joe", "Lisa", "Aaron Woods"})
+	p.AddAuthor([]string{"Joe", "Lisa", "Aaron's Woods"})
 
 	// assert
 	// assert.Len(t, p.ManagingEditor, 0)
-	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron Woods")
+	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron&apos;s Woods")
 }
 
 func TestAddCopyright(t *testing.T) {
@@ -80,10 +80,10 @@ func TestAddCopyright(t *testing.T) {
 	p := podcast.New("title", "link", "description", nil, nil)
 
 	// act
-	p.AddCopyright("inserted copyright text")
+	p.AddCopyright("inserted © text")
 
 	// assert
-	assert.Equal(t, p.Copyright, "inserted copyright text")
+	assert.Equal(t, p.Copyright, "inserted &#xA9; text")
 }
 
 func TestAddCopyrightEmpty(t *testing.T) {
@@ -693,6 +693,24 @@ type errWriter struct{}
 
 func (w errWriter) Write(p []byte) (n int, err error) {
 	return 0, errors.New("it was bad")
+}
+
+func TestAddPodcastTitleEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+	p.AddTitle("")
+
+	assert.Len(t, p.Title, 0)
+}
+
+func TestAddPodcastTitle(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+	p.AddTitle("Podpal™, Inc. 20")
+
+	assert.Equal(t, p.Title, "Podpal&#x2122;, Inc. 20")
 }
 
 func TestEncodeWriterError(t *testing.T) {
