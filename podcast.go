@@ -657,16 +657,16 @@ func (p *Podcast) Encode(w io.Writer) error {
 		return errors.Wrap(err, "podcast.Encode: w.Write return error")
 	}
 
-	atomLink := ""
-	if p.AtomLink != nil {
-		atomLink = "http://www.w3.org/2005/Atom"
-	}
+	// atomLink := ""
+	// if p.AtomLink != nil {
+	// 	atomLink = "http://www.w3.org/2005/Atom"
+	// }
 	wrapped := PodcastWrapper{
 		ITUNESNS: ITUNESNS,
 		CONTENT:  CONTENT,
-		ATOMNS:   atomLink,
-		Version:  "2.0",
-		Channel:  p,
+		// ATOMNS:   atomLink,
+		Version: "2.0",
+		Channel: p,
 	}
 	return p.encode(w, wrapped)
 }
@@ -691,11 +691,11 @@ func (p *Podcast) String() string {
 // }
 
 type PodcastWrapper struct {
-	XMLName  xml.Name `xml:"rss"`
-	Version  string   `xml:"version,attr"`
-	ATOMNS   string   `xml:"xmlns:atom,attr,omitempty"`
-	ITUNESNS string   `xml:"xmlns:itunes,attr"`
-	CONTENT  string   `xml:"xmlns:content,attr"`
+	XMLName xml.Name `xml:"rss"`
+	Version string   `xml:"version,attr"`
+	// ATOMNS   string   `xml:"xmlns:atom,attr,omitempty"`
+	ITUNESNS string `xml:"xmlns:itunes,attr"`
+	CONTENT  string `xml:"xmlns:content,attr"`
 	Channel  *Podcast
 }
 
