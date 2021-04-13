@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-GITHUB_REPO:=eduncan911/podcast
+GITHUB_REPO:=podpalinc/rss-feed-generator
 
 README:
 	godoc2ghmd -play -ex -verify_import_links=0 github.com/$(GITHUB_REPO) > README.md.tmp

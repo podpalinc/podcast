@@ -1,0 +1,13 @@
+{
+  "author": {
+    "email": "email@example.org"
+  },
+  "authors": [
+    {
+      "email": "email@example.org"
+    }
+  ],
+  "feedType": "rss",
+  "feedVersion": "2.0",
+  "items": []
+}

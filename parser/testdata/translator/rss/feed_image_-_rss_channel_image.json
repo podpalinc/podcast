@@ -1,0 +1,9 @@
+{
+  "feedType": "rss",
+  "feedVersion": "0.91",
+  "image": {
+    "title": "Sample image",
+    "url": "http://example.org/url"
+  },
+  "items": []
+}

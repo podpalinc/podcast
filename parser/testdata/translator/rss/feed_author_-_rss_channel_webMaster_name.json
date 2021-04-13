@@ -1,0 +1,13 @@
+{
+  "author": {
+    "name": "Feed WebMaster"
+  },
+  "authors": [
+    {
+      "name": "Feed WebMaster"
+    }
+  ],
+  "feedType": "rss",
+  "feedVersion": "2.0",
+  "items": []
+}
