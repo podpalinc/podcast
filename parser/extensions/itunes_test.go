@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mmcdole/gofeed"
+	"github.com/podpalinc/rss-feed-generator/parser"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -26,7 +26,7 @@ func TestITunes_Extensions(t *testing.T) {
 		f, _ := ioutil.ReadFile(ff)
 
 		// Parse actual feed
-		fp := gofeed.NewParser()
+		fp := parser.NewParser()
 		actual, _ := fp.Parse(bytes.NewReader(f))
 
 		// Get json encoded expected feed result
@@ -34,7 +34,7 @@ func TestITunes_Extensions(t *testing.T) {
 		e, _ := ioutil.ReadFile(ef)
 
 		// Unmarshal expected feed
-		expected := &gofeed.Feed{}
+		expected := &parser.Feed{}
 		json.Unmarshal(e, &expected)
 
 		if assert.Equal(t, expected, actual, "Feed file %s.xml did not match expected output %s.json", name, name) {

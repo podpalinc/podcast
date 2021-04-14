@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/mmcdole/goxpp"
+	"github.com/podpalinc/rss-feed-generator/parser/xpp"
 	"github.com/stretchr/testify/assert"
 )
 

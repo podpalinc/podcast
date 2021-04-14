@@ -5,29 +5,29 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mmcdole/gofeed"
+	parser "github.com/podpalinc/rss-feed-generator/parser"
 )
 
 func TestFeedSort(t *testing.T) {
-	oldestItem := &gofeed.Item{
+	oldestItem := &parser.Item{
 		PublishedParsed: &[]time.Time{time.Unix(0, 0)}[0],
 	}
-	inbetweenItem := &gofeed.Item{
+	inbetweenItem := &parser.Item{
 		PublishedParsed: &[]time.Time{time.Unix(1, 0)}[0],
 	}
-	newestItem := &gofeed.Item{
+	newestItem := &parser.Item{
 		PublishedParsed: &[]time.Time{time.Unix(2, 0)}[0],
 	}
 
-	feed := gofeed.Feed{
-		Items: []*gofeed.Item{
+	feed := parser.Feed{
+		Items: []*parser.Item{
 			newestItem,
 			oldestItem,
 			inbetweenItem,
 		},
 	}
-	expected := gofeed.Feed{
-		Items: []*gofeed.Item{
+	expected := parser.Feed{
+		Items: []*parser.Item{
 			oldestItem,
 			inbetweenItem,
 			newestItem,
