@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mmcdole/gofeed/atom"
-	ext "github.com/mmcdole/gofeed/extensions"
-	"github.com/mmcdole/gofeed/json"
-	"github.com/mmcdole/gofeed/rss"
+	"github.com/podpalinc/rss-feed-generator/parser/atom"
+	ext "github.com/podpalinc/rss-feed-generator/parser/extensions"
+	"github.com/podpalinc/rss-feed-generator/parser/json"
+	"github.com/podpalinc/rss-feed-generator/parser/rss"
 	"github.com/podpalinc/rss-feed-generator/parser/util"
 )
 
