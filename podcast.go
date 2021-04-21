@@ -15,10 +15,13 @@ import (
 
 // Constants to use while generating podcast feed.
 const (
-	pVersion = "1.3.1"
-	HEADER   = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-	ITUNESNS = "http://www.itunes.com/dtds/podcast-1.0.dtd"
-	CONTENT  = "http://purl.org/rss/1.0/modules/content/"
+	pVersion     = "1.3.1"
+	HEADER       = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+	ATOMNS       = "http://www.w3.org/2005/Atom"
+	ITUNESNS     = "http://www.itunes.com/dtds/podcast-1.0.dtd"
+	GOOGLEPLAYNS = "http://www.google.com/schemas/play-podcasts/1.0"
+	SPOTIFYNS    = "http://www.spotify.com/ns/rss"
+	CONTENT      = "http://purl.org/rss/1.0/modules/content/"
 )
 
 // Podcast represents a podcast.
@@ -691,20 +694,24 @@ func (p *Podcast) String() string {
 // }
 
 type PodcastWrapper struct {
-	XMLName xml.Name `xml:"rss"`
-	Version string   `xml:"version,attr"`
-	// ATOMNS   string   `xml:"xmlns:atom,attr,omitempty"`
-	ITUNESNS string `xml:"xmlns:itunes,attr"`
-	CONTENT  string `xml:"xmlns:content,attr"`
-	Channel  *Podcast
+	XMLName      xml.Name `xml:"rss"`
+	Version      string   `xml:"version,attr"`
+	ATOMNS       string   `xml:"xmlns:atom,attr,omitempty"`
+	ITUNESNS     string   `xml:"xmlns:itunes,attr"`
+	GOOGLEPLAYNS string   `xml:"xmlns:googleplay,attr"`
+	SPOTIFYNS    string   `xml:"xmlns:spotify,attr"`
+	CONTENT      string   `xml:"xmlns:content,attr"`
+	Channel      *Podcast
 }
 
 func NewWrapper(p *Podcast) PodcastWrapper {
 	return PodcastWrapper{
+		ATOMNS:   ATOMNS,
 		ITUNESNS: ITUNESNS,
-		CONTENT:  CONTENT,
-		Version:  "2.0",
-		Channel:  p,
+
+		CONTENT: CONTENT,
+		Version: "2.0",
+		Channel: p,
 	}
 }
 
