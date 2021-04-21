@@ -181,6 +181,18 @@ func TestParseCategories(t *testing.T) {
 	assert.EqualValues(t, expected, out)
 }
 
+func TestParseCategoriesChildCatEmpty(t *testing.T) {
+	t.Parallel()
+
+	out := podcast.ParseCategories([]string{"Health & Fitness"})
+
+	expected := map[string][]string{
+		"Health &amp; Fitness": []string{},
+	}
+
+	assert.EqualValues(t, expected, out)
+}
+
 func TestAddParentalAdvisoryEmpty(t *testing.T) {
 	t.Parallel()
 

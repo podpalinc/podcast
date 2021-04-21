@@ -278,7 +278,7 @@ func ParseCategories(categories []string) map[string][]string {
 
 	for _, category := range categories {
 		pc := findPodcastCategory(category)
-		if &pc != nil && pc.ParentCategory != "" {
+		if &pc != nil && pc != nil && pc.ParentCategory != "" {
 			parentCat := GenerateFeedString(pc.ParentCategory)
 			parsedCategories[parentCat] = append(parsedCategories[parentCat], strings.Replace(pc.Name, "&", "&amp;", -1))
 		} else {

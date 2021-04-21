@@ -59,7 +59,8 @@ func main() {
 			os.Exit(1)
 		}
 
-		fmt.Println(feed)
+		// fmt.Println(feed)
+		fmt.Println(feed.(*parser.Feed).Language)
 	}
 	app.Run(os.Args)
 }
