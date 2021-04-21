@@ -706,12 +706,13 @@ type PodcastWrapper struct {
 
 func NewWrapper(p *Podcast) PodcastWrapper {
 	return PodcastWrapper{
-		ATOMNS:   ATOMNS,
-		ITUNESNS: ITUNESNS,
-
-		CONTENT: CONTENT,
-		Version: "2.0",
-		Channel: p,
+		ATOMNS:       ATOMNS,
+		ITUNESNS:     ITUNESNS,
+		GOOGLEPLAYNS: GOOGLEPLAYNS,
+		SPOTIFYNS:    SPOTIFYNS,
+		CONTENT:      CONTENT,
+		Version:      "2.0",
+		Channel:      p,
 	}
 }
 
