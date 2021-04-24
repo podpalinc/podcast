@@ -6,6 +6,7 @@ import "strings"
  * Ensures that the string passed in is compliant with RSS feed requirements specified in https://help.apple.com/itc/podcasts_connect/#/itc1723472cb
  */
 func GenerateFeedString(str string) string {
+	// TODO: Add necessary replacements for Gplay and Spotify too.
 	str = strings.Replace(str, "&", "&amp;", -1)
 	str = strings.Replace(str, "<", "&lt;", -1)
 	str = strings.Replace(str, ">", "&gt;", -1)
