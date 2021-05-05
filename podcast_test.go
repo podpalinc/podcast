@@ -125,6 +125,30 @@ func TestAddCategoryEmpty(t *testing.T) {
 	assert.Len(t, p.ICategories, 0)
 	assert.Len(t, p.Category, 0)
 }
+
+func TestAddPodcastDescriptionEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+
+	p.AddDescription("")
+
+	assert.Len(t, p.Description, 0)
+	assert.Nil(t, p.EncodedDescription)
+}
+
+func TestAddPodcastDescription(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+	desc := "sample description"
+
+	p.AddDescription(desc)
+
+	assert.Equal(t, p.Description, desc)
+	assert.Equal(t, p.EncodedDescription.Text, desc)
+}
+
 func TestAddLanguageEmpty(t *testing.T) {
 	t.Parallel()
 
@@ -191,6 +215,62 @@ func TestParseCategoriesChildCatEmpty(t *testing.T) {
 	}
 
 	assert.EqualValues(t, expected, out)
+}
+
+func TestAddPodcastGeneratorEmpty(t *testing.T) {
+	p := podcast.Podcast{}
+
+	p.AddGenerator("")
+
+	assert.Len(t, p.Generator, 0)
+}
+
+func TestAddPodcastGenerator(t *testing.T) {
+	p := podcast.Podcast{}
+	generator := "https://www.podpal.com"
+	p.AddGenerator(generator)
+
+	assert.Equal(t, p.Generator, generator)
+}
+
+func TestAddPodcastLastBuildDateEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+
+	p.AddLastBuildDate("")
+
+	assert.Len(t, p.LastBuildDate, 0)
+}
+
+func TestAddPodcastLastBuildDate(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+
+	p.AddLastBuildDate("Sun, 14 Mar 2021 18:34:05 +0000")
+
+	assert.Equal(t, p.LastBuildDate, "Sun, 14 Mar 2021 18:34:05 +0000")
+}
+
+func TestAddPodcastPubDateEmpty(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+
+	p.AddPubDate("")
+
+	assert.Len(t, p.PubDate, 0)
+}
+
+func TestAddPodcastPubDate(t *testing.T) {
+	t.Parallel()
+
+	p := podcast.Podcast{}
+
+	p.AddPubDate("Sun, 14 Mar 2021 18:34:05 +0000")
+
+	assert.Equal(t, p.PubDate, "Sun, 14 Mar 2021 18:34:05 +0000")
 }
 
 func TestAddParentalAdvisoryEmpty(t *testing.T) {

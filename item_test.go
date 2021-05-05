@@ -84,6 +84,7 @@ func TestAddDescriptionEmpty(t *testing.T) {
 	i.AddDescription("")
 
 	assert.Len(t, i.Description, 0)
+	assert.Nil(t, i.EncodedDescription)
 }
 
 func TestAddDescription(t *testing.T) {
@@ -97,6 +98,7 @@ func TestAddDescription(t *testing.T) {
 	i.AddDescription(desc)
 
 	assert.Equal(t, i.Description, desc)
+	assert.Equal(t, i.EncodedDescription.Text, desc)
 }
 
 func TestAddEpisodeNumberInvalid(t *testing.T) {

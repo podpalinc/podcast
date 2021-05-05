@@ -25,17 +25,18 @@ import (
 // - Always set an Enclosure.Length, to be nice to your downloaders.
 // - Use Enclosure.Type instead of setting TypeFormatted for valid extensions.
 type Item struct {
-	XMLName         xml.Name `xml:"item"`
-	GUID            string   `xml:"guid"`
-	Title           string   `xml:"title"`
-	Link            string   `xml:"link"`
-	Description     string   `xml:"description"`
-	AuthorFormatted string   `xml:"author,omitempty"`
-	Category        string   `xml:"category,omitempty"`
-	Comments        string   `xml:"comments,omitempty"`
-	Source          string   `xml:"source,omitempty"`
-	PubDate         string   `xml:"pubDate,omitempty"`
-	Enclosure       *Enclosure
+	XMLName            xml.Name `xml:"item"`
+	GUID               string   `xml:"guid"`
+	Title              string   `xml:"title"`
+	Link               string   `xml:"link"`
+	Description        string   `xml:"description"`
+	EncodedDescription *EncodedContent
+	AuthorFormatted    string `xml:"author,omitempty"`
+	Category           string `xml:"category,omitempty"`
+	Comments           string `xml:"comments,omitempty"`
+	Source             string `xml:"source,omitempty"`
+	PubDate            string `xml:"pubDate,omitempty"`
+	Enclosure          *Enclosure
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	IAuthor            string `xml:"itunes:author,omitempty"`
@@ -83,6 +84,9 @@ func (i *Item) AddDescription(desc string) {
 	}
 
 	i.Description = desc
+	i.EncodedDescription = &EncodedContent{
+		Text: desc,
+	}
 }
 
 // AddEnclosure adds the downloadable asset to the podcast Item.

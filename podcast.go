@@ -26,25 +26,28 @@ const (
 
 // Podcast represents a podcast.
 type Podcast struct {
-	XMLName        xml.Name `xml:"channel"`
-	Title          string   `xml:"title"`
-	Link           string   `xml:"link,omitempty"`
-	Description    string   `xml:"description"`
-	Category       string   `xml:"category,omitempty"`
-	Cloud          string   `xml:"cloud,omitempty"`
-	Copyright      string   `xml:"copyright,omitempty"`
-	Docs           string   `xml:"docs,omitempty"`
-	Generator      string   `xml:"generator,omitempty"`
-	Language       string   `xml:"language,omitempty"`
-	ManagingEditor string   `xml:"managingEditor,omitempty"`
-	Rating         string   `xml:"rating,omitempty"`
-	SkipHours      string   `xml:"skipHours,omitempty"`
-	SkipDays       string   `xml:"skipDays,omitempty"`
-	TTL            int      `xml:"ttl,omitempty"`
-	WebMaster      string   `xml:"webMaster,omitempty"`
-	Image          *Image
-	TextInput      *TextInput
-	AtomLink       *AtomLink
+	XMLName            xml.Name `xml:"channel"`
+	Title              string   `xml:"title"`
+	Link               string   `xml:"link,omitempty"`
+	Description        string   `xml:"description"`
+	EncodedDescription *EncodedContent
+	Category           string `xml:"category,omitempty"`
+	Cloud              string `xml:"cloud,omitempty"`
+	Copyright          string `xml:"copyright,omitempty"`
+	Docs               string `xml:"docs,omitempty"`
+	Generator          string `xml:"generator,omitempty"`
+	Language           string `xml:"language,omitempty"`
+	PubDate            string `xml:"pubDate,omitempty"`
+	LastBuildDate      string `xml:"lastBuildDate,omitempty"`
+	ManagingEditor     string `xml:"managingEditor,omitempty"`
+	Rating             string `xml:"rating,omitempty"`
+	SkipHours          string `xml:"skipHours,omitempty"`
+	SkipDays           string `xml:"skipDays,omitempty"`
+	TTL                int    `xml:"ttl,omitempty"`
+	WebMaster          string `xml:"webMaster,omitempty"`
+	Image              *Image
+	TextInput          *TextInput
+	AtomLink           *AtomLink
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	ITitle      string `xml:"itunes:title,omitempty"`
@@ -291,6 +294,33 @@ func ParseCategories(categories []string) map[string][]string {
 	}
 
 	return parsedCategories
+}
+
+func (p *Podcast) AddDescription(description string) {
+	if len(description) <= 0 {
+		return
+	}
+
+	p.Description = description
+	p.EncodedDescription = &EncodedContent{
+		Text: description,
+	}
+}
+
+func (p *Podcast) AddGenerator(generator string) {
+	if len(generator) <= 0 {
+		return
+	}
+
+	p.Generator = generator
+}
+
+func (p *Podcast) AddLastBuildDate(datetime string) {
+	if len(datetime) == 0 {
+		return
+	}
+
+	p.LastBuildDate = datetime
 }
 
 // Podcast Language Codes.
@@ -609,6 +639,15 @@ func (p *Podcast) AddOwner(name, email string) {
 		Name:  GenerateFeedString(name),
 		Email: GenerateFeedString(email),
 	}
+}
+
+func (p *Podcast) AddPubDate(datetime string) {
+
+	if len(datetime) == 0 {
+		return
+	}
+
+	p.PubDate = datetime
 }
 
 // AddSubTitle adds the iTunes subtitle that is displayed with the title
