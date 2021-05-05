@@ -6,5 +6,5 @@ import "encoding/xml"
 // that is properly formatted across all podcast distributors (<content:encoded>)
 type EncodedContent struct {
 	XMLName xml.Name `xml:"content:encoded"`
-	Text    string   `xml:""`
+	Text    string   `xml:",cdata"`
 }

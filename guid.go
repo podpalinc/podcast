@@ -7,5 +7,5 @@ import "encoding/xml"
 type GUID struct {
 	XMLName     xml.Name `xml:"guid"`
 	IsPermaLink bool     `xml:"isPermaLink,attr"`
-	Value       string   `xml:"value,omitempty"`
+	Value       string
 }
