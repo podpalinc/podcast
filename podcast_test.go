@@ -468,7 +468,7 @@ func TestAddItemNoEnclosureGUIDValid(t *testing.T) {
 	assert.EqualValues(t, 1, added)
 	assert.NoError(t, err)
 	assert.Len(t, p.Items, 1)
-	assert.EqualValues(t, theLink, p.Items[0].GUID)
+	assert.EqualValues(t, theLink, p.Items[0].GUID.Value)
 }
 
 func TestAddItemWithEnclosureGUIDSet(t *testing.T) {
@@ -482,7 +482,7 @@ func TestAddItemWithEnclosureGUIDSet(t *testing.T) {
 	i := podcast.Item{
 		Title:       "title",
 		Description: "desc",
-		GUID:        theGUID,
+		GUID:        &podcast.GUID{IsPermaLink: false, Value: theGUID},
 	}
 	i.AddEnclosure(theLink, podcast.MP3, "audio/mpeg", int64(length))
 
@@ -493,7 +493,7 @@ func TestAddItemWithEnclosureGUIDSet(t *testing.T) {
 	assert.EqualValues(t, 1, added)
 	assert.NoError(t, err)
 	assert.Len(t, p.Items, 1)
-	assert.EqualValues(t, theGUID, p.Items[0].GUID)
+	assert.EqualValues(t, theGUID, p.Items[0].GUID.Value)
 	assert.EqualValues(t, length, p.Items[0].Enclosure.Length)
 }
 

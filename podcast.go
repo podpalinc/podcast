@@ -27,15 +27,16 @@ const (
 // Podcast represents a podcast.
 type Podcast struct {
 	XMLName            xml.Name `xml:"channel"`
-	Title              string   `xml:"title"`
-	Link               string   `xml:"link,omitempty"`
-	Description        string   `xml:"description"`
+	AtomLink           *AtomLink
+	Generator          string `xml:"generator,omitempty"`
+	Title              string `xml:"title"`
+	Link               string `xml:"link,omitempty"`
+	Description        string `xml:"description"`
 	EncodedDescription *EncodedContent
 	Category           string `xml:"category,omitempty"`
 	Cloud              string `xml:"cloud,omitempty"`
 	Copyright          string `xml:"copyright,omitempty"`
 	Docs               string `xml:"docs,omitempty"`
-	Generator          string `xml:"generator,omitempty"`
 	Language           string `xml:"language,omitempty"`
 	PubDate            string `xml:"pubDate,omitempty"`
 	LastBuildDate      string `xml:"lastBuildDate,omitempty"`
@@ -47,7 +48,6 @@ type Podcast struct {
 	WebMaster          string `xml:"webMaster,omitempty"`
 	Image              *Image
 	TextInput          *TextInput
-	AtomLink           *AtomLink
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	ITitle      string `xml:"itunes:title,omitempty"`
@@ -539,8 +539,8 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 	//
 	// i.AuthorFormatted = parseAuthorNameEmail(i.Author)
 	if i.Enclosure != nil {
-		if len(i.GUID) == 0 {
-			i.GUID = i.Enclosure.URL // yep, GUID is the Permlink URL
+		if i.GUID == nil {
+			i.GUID = &GUID{IsPermaLink: true, Value: i.Enclosure.URL} // yep, GUID is the Permlink URL
 		}
 
 		if i.Enclosure.Length < 0 {
@@ -555,7 +555,7 @@ func (p *Podcast) AddItem(i Item) (int, error) {
 			i.Link = i.Enclosure.URL
 		}
 	} else {
-		i.GUID = i.Link // yep, GUID is the Permlink URL
+		i.GUID = &GUID{IsPermaLink: true, Value: i.Link} // yep, GUID is the Permlink URL
 	}
 
 	// iTunes it

@@ -26,10 +26,10 @@ import (
 // - Use Enclosure.Type instead of setting TypeFormatted for valid extensions.
 type Item struct {
 	XMLName            xml.Name `xml:"item"`
-	GUID               string   `xml:"guid"`
-	Title              string   `xml:"title"`
-	Link               string   `xml:"link"`
-	Description        string   `xml:"description"`
+	GUID               *GUID
+	Title              string `xml:"title"`
+	Link               string `xml:"link"`
+	Description        string `xml:"description"`
 	EncodedDescription *EncodedContent
 	AuthorFormatted    string `xml:"author,omitempty"`
 	Category           string `xml:"category,omitempty"`
@@ -59,7 +59,10 @@ func (i *Item) AddGUID(guid string) {
 		return
 	}
 
-	i.GUID = guid
+	i.GUID = &GUID{
+		IsPermaLink: false,
+		Value:       guid,
+	}
 }
 
 func (i *Item) AddTitle(title string) {
