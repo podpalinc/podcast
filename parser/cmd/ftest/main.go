@@ -61,6 +61,12 @@ func main() {
 
 		// fmt.Println(feed)
 		fmt.Println(feed.(*parser.Feed).Language)
+
+		// items := feed.(*parser.Feed).Items
+
+		// for _, item := range items {
+		// 	fmt.Println(item.ITunesExt.Duration)
+		// }
 	}
 	app.Run(os.Args)
 }

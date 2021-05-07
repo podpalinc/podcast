@@ -1,5 +1,11 @@
 package ext
 
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
+
 // ITunesFeedExtension is a set of extension
 // fields for RSS feeds.
 type ITunesFeedExtension struct {
@@ -72,7 +78,8 @@ func NewITunesItemExtension(extensions map[string][]Extension) *ITunesItemExtens
 	entry := &ITunesItemExtension{}
 	entry.Author = parseTextExtension("author", extensions)
 	entry.Block = parseTextExtension("block", extensions)
-	entry.Duration = parseTextExtension("duration", extensions)
+	// entry.Duration = parseTextExtension("duration", extensions)
+	entry.Duration = parseDuration(extensions)
 	entry.Explicit = parseTextExtension("explicit", extensions)
 	entry.Subtitle = parseTextExtension("subtitle", extensions)
 	entry.Summary = parseTextExtension("summary", extensions)
@@ -98,6 +105,39 @@ func parseImage(extensions map[string][]Extension) (image string) {
 
 	image = matches[0].Attrs["href"]
 	return
+}
+
+func parseDuration(extensions map[string][]Extension) (duration string) {
+	if extensions == nil {
+		return
+	}
+
+	matches, ok := extensions["duration"]
+	if !ok || len(matches) == 0 {
+		return
+	}
+
+	// Convert hh:mm:ss to a format that parseDuration accepts.
+	duration = matches[0].Value
+	units := []string{"m", "h"}
+	counter := 0
+	for i := len(duration) - 1; i >= 0; i-- {
+		if string(duration[i]) == ":" {
+			duration = duration[:i] + units[counter] + duration[i+1:]
+			counter++
+		}
+	}
+	duration = duration + "s"
+
+	t1, err := time.ParseDuration(duration)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("Original duration value: " + matches[0].Value)
+	fmt.Println(strconv.Itoa(int(t1.Seconds())))
+
+	return strconv.Itoa(int(t1.Seconds()))
 }
 
 func parseOwner(extensions map[string][]Extension) (owner *ITunesOwner) {
