@@ -133,10 +133,6 @@ func parseDuration(extensions map[string][]Extension) (duration string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Println("Original duration value: " + matches[0].Value)
-	fmt.Println(strconv.Itoa(int(t1.Seconds())))
-
 	return strconv.Itoa(int(t1.Seconds()))
 }
 

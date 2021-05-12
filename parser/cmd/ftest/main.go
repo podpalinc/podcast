@@ -55,18 +55,14 @@ func main() {
 		}
 
 		if err != nil {
-			fmt.Println(err.Error())
 			os.Exit(1)
 		}
 
-		// fmt.Println(feed)
-		fmt.Println(feed.(*parser.Feed).Language)
+		items := feed.(*parser.Feed).Items
 
-		// items := feed.(*parser.Feed).Items
-
-		// for _, item := range items {
-		// 	fmt.Println(item.ITunesExt.Duration)
-		// }
+		for _, item := range items {
+			fmt.Println(item.Title)
+		}
 	}
 	app.Run(os.Args)
 }
