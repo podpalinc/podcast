@@ -29,7 +29,7 @@ type Item struct {
 	GUID               *GUID
 	Title              string `xml:"title"`
 	Link               string `xml:"link"`
-	Description        string `xml:"description"`
+	Description        *Description
 	EncodedDescription *EncodedContent
 	AuthorFormatted    string `xml:"author,omitempty"`
 	Category           string `xml:"category,omitempty"`
@@ -81,14 +81,14 @@ func (i *Item) AddLink(link string) {
 	i.Link = link
 }
 
-func (i *Item) AddDescription(desc string) {
-	if len(desc) <= 0 {
+func (i *Item) AddDescription(description Description) {
+	if len(description.Text) <= 0 {
 		return
 	}
 
-	i.Description = desc
+	i.Description = &description
 	i.EncodedDescription = &EncodedContent{
-		Text: desc,
+		Text: description.Text,
 	}
 }
 

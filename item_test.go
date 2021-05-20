@@ -81,9 +81,9 @@ func TestAddDescriptionEmpty(t *testing.T) {
 	// arrange
 	i := podcast.Item{}
 
-	i.AddDescription("")
+	i.AddDescription(podcast.Description{})
 
-	assert.Len(t, i.Description, 0)
+	assert.Nil(t, i.Description)
 	assert.Nil(t, i.EncodedDescription)
 }
 
@@ -95,9 +95,9 @@ func TestAddDescription(t *testing.T) {
 
 	desc := "This is a sample description"
 
-	i.AddDescription(desc)
+	i.AddDescription(podcast.Description{Text: "This is a sample description"})
 
-	assert.Equal(t, i.Description, desc)
+	assert.Equal(t, i.Description.Text, desc)
 	assert.Equal(t, i.EncodedDescription.Text, desc)
 }
 
@@ -107,7 +107,7 @@ func TestAddEpisodeNumberInvalid(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -122,7 +122,7 @@ func TestAddEpisodeNumber(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -137,7 +137,7 @@ func TestAddEpisodeTypeEmpty(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -152,7 +152,7 @@ func TestAddEpisodeTypeInvalid(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -167,7 +167,7 @@ func TestAddEpisodeType(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -181,7 +181,7 @@ func TestAddEpisodeParentalAdvisoryEmpty(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -195,7 +195,7 @@ func TestAddEpisodeParentalAdvisoryExplicit(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -209,7 +209,7 @@ func TestAddEpisodeParentalAdvisoryClean(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -223,7 +223,7 @@ func TestAddPubDateEmpty(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -237,7 +237,7 @@ func TestAddPubDate(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -252,7 +252,7 @@ func TestItemAddSummaryTooLong(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 	summary := ""
@@ -277,7 +277,7 @@ func TestAddEpisodeBlockEmpty(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 	summary := ""
@@ -298,7 +298,7 @@ func TestAddEpisodeItunesTitleEmpty(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -312,7 +312,7 @@ func TestAddEpisodeItunesTitle(t *testing.T) {
 
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -327,7 +327,7 @@ func TestAddEpisodeBlockHide(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 	summary := ""
@@ -349,7 +349,7 @@ func TestAddSeasonNumberInvalid(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -364,7 +364,7 @@ func TestAddSeasonNumber(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -379,7 +379,7 @@ func TestItemAddImageEmptyUrl(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 
@@ -396,7 +396,7 @@ func TestItemAddDurationZero(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 	d := int64(0)
@@ -414,7 +414,7 @@ func TestItemAddDurationLessThanZero(t *testing.T) {
 	// arrange
 	i := podcast.Item{
 		Title:       "item.title",
-		Description: "item.desc",
+		Description: &podcast.Description{Text: "item.desc"},
 		Link:        "http://example.com/article.html",
 	}
 	d := int64(-13)

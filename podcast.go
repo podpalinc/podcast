@@ -31,7 +31,7 @@ type Podcast struct {
 	Generator          string `xml:"generator,omitempty"`
 	Title              string `xml:"title"`
 	Link               string `xml:"link,omitempty"`
-	Description        string `xml:"description"`
+	Description        *Description
 	EncodedDescription *EncodedContent
 	Category           string `xml:"category,omitempty"`
 	Cloud              string `xml:"cloud,omitempty"`
@@ -73,12 +73,12 @@ type Podcast struct {
 //
 // Nil-able fields are optional but recommended as they are formatted
 // to the expected proper formats.
-func New(title, link, description string,
+func New(title, link string, description Description,
 	pubDate, lastBuildDate *time.Time) Podcast {
 	return Podcast{
 		Title:       GenerateFeedString(title),
 		Link:        link,
-		Description: GenerateFeedString(description),
+		Description: &description,
 		// setup dependency (could inject later)
 		encode: encoder,
 	}
@@ -296,14 +296,14 @@ func ParseCategories(categories []string) map[string][]string {
 	return parsedCategories
 }
 
-func (p *Podcast) AddDescription(description string) {
-	if len(description) <= 0 {
+func (p *Podcast) AddDescription(description Description) {
+	if len(description.Text) <= 0 {
 		return
 	}
 
-	p.Description = description
+	p.Description = &description
 	p.EncodedDescription = &EncodedContent{
-		Text: description,
+		Text: description.Text,
 	}
 }
 
