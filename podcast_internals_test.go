@@ -30,7 +30,7 @@ func TestEncodeError(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := New("", "", "", nil, nil)
+	p := New("", "", Description{Text: ""}, nil, nil)
 	b := []byte{}
 	w := bytes.NewBuffer(b)
 	c := new(chan bool)

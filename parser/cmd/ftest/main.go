@@ -60,8 +60,10 @@ func main() {
 
 		items := feed.(*parser.Feed).Items
 
+		fmt.Println(len(items))
 		for _, item := range items {
 			fmt.Println(item.Title)
+			fmt.Println(item.Enclosures)
 		}
 	}
 	app.Run(os.Args)

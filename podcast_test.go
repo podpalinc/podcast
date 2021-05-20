@@ -19,7 +19,7 @@ func TestNewNonNils(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	ti, l, d := "title", "link", "description"
+	ti, l, d := "title", "link", podcast.Description{Text: "Description"}
 
 	// act
 	p := podcast.New(ti, l, d, &createdDate, &updatedDate)
@@ -27,14 +27,14 @@ func TestNewNonNils(t *testing.T) {
 	// assert
 	assert.EqualValues(t, ti, p.Title)
 	assert.EqualValues(t, l, p.Link)
-	assert.EqualValues(t, d, p.Description)
+	assert.EqualValues(t, d.Text, p.Description.Text)
 }
 
 func TestNewNils(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	ti, l, d := "title", "link", "description"
+	ti, l, d := "title", "link", podcast.Description{Text: "Description"}
 
 	// act
 	p := podcast.New(ti, l, d, nil, nil)
@@ -42,14 +42,14 @@ func TestNewNils(t *testing.T) {
 	// assert
 	assert.EqualValues(t, ti, p.Title)
 	assert.EqualValues(t, l, p.Link)
-	assert.EqualValues(t, d, p.Description)
+	assert.EqualValues(t, d.Text, p.Description.Text)
 }
 
 func TestAddAuthorEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddAuthor([]string{})
@@ -63,7 +63,7 @@ func TestAddAuthor(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddAuthor([]string{"Joe", "Lisa", "Aaron's Woods"})
@@ -77,7 +77,7 @@ func TestAddCopyright(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddCopyright("inserted © text")
@@ -90,7 +90,7 @@ func TestAddCopyrightEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddCopyright("")
@@ -103,7 +103,7 @@ func TestAddAtomLinkHrefEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddAtomLink("")
@@ -116,7 +116,7 @@ func TestAddCategoryEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddCategory("", nil)
@@ -131,9 +131,9 @@ func TestAddPodcastDescriptionEmpty(t *testing.T) {
 
 	p := podcast.Podcast{}
 
-	p.AddDescription("")
+	p.AddDescription(podcast.Description{})
 
-	assert.Len(t, p.Description, 0)
+	assert.Nil(t, p.Description)
 	assert.Nil(t, p.EncodedDescription)
 }
 
@@ -143,16 +143,16 @@ func TestAddPodcastDescription(t *testing.T) {
 	p := podcast.Podcast{}
 	desc := "sample description"
 
-	p.AddDescription(desc)
+	p.AddDescription(podcast.Description{Text: desc})
 
-	assert.Equal(t, p.Description, desc)
+	assert.Equal(t, p.Description.Text, desc)
 	assert.Equal(t, p.EncodedDescription.Text, desc)
 }
 
 func TestAddLanguageEmpty(t *testing.T) {
 	t.Parallel()
 
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddLanguage("")
 
@@ -163,7 +163,7 @@ func TestAddCategorySubCatEmpty1(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddCategory("mycat", []string{""})
@@ -178,7 +178,7 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddCategory("mycat", []string{"xyz", "", "abc"})
@@ -276,7 +276,7 @@ func TestAddPodcastPubDate(t *testing.T) {
 func TestAddParentalAdvisoryEmpty(t *testing.T) {
 	t.Parallel()
 
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddParentalAdvisory("invalid")
 
@@ -286,7 +286,7 @@ func TestAddParentalAdvisoryEmpty(t *testing.T) {
 func TestAddParentalAdvisoryExplicit(t *testing.T) {
 	t.Parallel()
 
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddParentalAdvisory(podcast.ParentalAdvisoryExplicit)
 
@@ -296,7 +296,7 @@ func TestAddParentalAdvisoryExplicit(t *testing.T) {
 func TestAddParentalAdvisoryClean(t *testing.T) {
 	t.Parallel()
 
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddParentalAdvisory(podcast.ParentalAdvisoryClean)
 
@@ -307,7 +307,7 @@ func TestAddImageEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddImage("")
@@ -320,7 +320,7 @@ func TestAddImage(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// act
 	p.AddImage("https://google.com")
@@ -332,7 +332,7 @@ func TestAddItemEmptyTitleDescription(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 	i := podcast.Item{}
 
 	// act
@@ -350,8 +350,8 @@ func TestAddItemEmptyEnclosureURL(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.AddEnclosure("", podcast.MP3, "audio/mpeg", 1)
 
 	// act
@@ -367,8 +367,8 @@ func TestAddItemEmptyEnclosureType(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, "application/octet-stream", 1)
 
 	// act
@@ -384,8 +384,8 @@ func TestAddItemEmptyLink(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 
 	// act
 	added, err := p.AddItem(i)
@@ -400,8 +400,8 @@ func TestAddItemEnclosureLengthMin(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, "audio/mpeg", -1)
 
 	// act
@@ -418,8 +418,8 @@ func TestAddItemEnclosureNoLinkOverride(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, "audio/mpeg", -1)
 
 	// act
@@ -437,8 +437,8 @@ func TestAddItemEnclosureLinkPresentNoOverride(t *testing.T) {
 
 	// arrange
 	theLink := "http://someotherurl.com/story.html"
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.Link = theLink
 	i.AddEnclosure("http://example.com/1.mp3", podcast.MP3, "audio/mpeg", -1)
 
@@ -457,8 +457,8 @@ func TestAddItemNoEnclosureGUIDValid(t *testing.T) {
 
 	// arrange
 	theLink := "http://someotherurl.com/story.html"
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}}
 	i.Link = theLink
 
 	// act
@@ -478,10 +478,10 @@ func TestAddItemWithEnclosureGUIDSet(t *testing.T) {
 	theLink := "http://someotherurl.com/story.html"
 	theGUID := "someGUID"
 	length := 3
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 	i := podcast.Item{
 		Title:       "title",
-		Description: "desc",
+		Description: &podcast.Description{Text: "desc"},
 		GUID:        &podcast.GUID{IsPermaLink: false, Value: theGUID},
 	}
 	i.AddEnclosure(theLink, podcast.MP3, "audio/mpeg", int64(length))
@@ -502,8 +502,8 @@ func TestAddItemAuthor(t *testing.T) {
 
 	// arrange
 	// theAuthor := podcast.Author{Name: "Jane Doe", Email: "me@janedoe.com"}
-	p := podcast.New("title", "link", "description", nil, nil)
-	i := podcast.Item{Title: "title", Description: "desc", Link: "http://a.co/"}
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}, Link: "http://a.co/"}
 	// i.Author = &theAuthor
 
 	// act
@@ -522,9 +522,9 @@ func TestAddItemRootManagingEditorSetsAuthorIAuthor(t *testing.T) {
 
 	// arrange
 	theAuthor := "me@janedoe.com"
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 	p.ManagingEditor = theAuthor
-	i := podcast.Item{Title: "title", Description: "desc", Link: "http://a.co/"}
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}, Link: "http://a.co/"}
 
 	// act
 	added, err := p.AddItem(i)
@@ -541,9 +541,9 @@ func TestAddItemRootIAuthorSetsAuthorIAuthor(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 	p.IAuthor = "me@janedoe.com"
-	i := podcast.Item{Title: "title", Description: "desc", Link: "http://a.co/"}
+	i := podcast.Item{Title: "title", Description: &podcast.Description{Text: "desc"}, Link: "http://a.co/"}
 
 	// act
 	added, err := p.AddItem(i)
@@ -560,7 +560,7 @@ func TestAddBlockEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesBlock("")
 
@@ -571,7 +571,7 @@ func TestAddBlockHide(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesBlock("hide")
 
@@ -582,7 +582,7 @@ func TestAddCompleteEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesComplete("")
 
@@ -593,7 +593,7 @@ func TestAddComplete(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesComplete("complete")
 
@@ -604,7 +604,7 @@ func TestAddItunesImageEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesImage("")
 
@@ -615,7 +615,7 @@ func TestAddItunesImage(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesImage("https://google.com")
 
@@ -626,7 +626,7 @@ func TestAddShowTypeEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesType("")
 
@@ -637,7 +637,7 @@ func TestAddShowType(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddItunesType("episodic")
 
@@ -648,7 +648,7 @@ func TestAddPodcastLinkEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("", "", "", nil, nil)
+	p := podcast.New("", "", podcast.Description{Text: ""}, nil, nil)
 
 	p.AddLink("")
 
@@ -660,7 +660,7 @@ func TestAddPodcastLink(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("", "", "", nil, nil)
+	p := podcast.New("", "", podcast.Description{Text: ""}, nil, nil)
 
 	p.AddLink("https://google.com")
 
@@ -671,7 +671,7 @@ func TestAddNewFeedURLEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddNewFeedURL("")
 
@@ -682,7 +682,7 @@ func TestAddNewFeedURL(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddNewFeedURL("https://podpal.com")
 
@@ -692,7 +692,7 @@ func TestAddOwnerEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddOwner("", "")
 
@@ -703,7 +703,7 @@ func TestAddOwner(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	p.AddOwner("joe", "joe@podpal.com")
 
@@ -715,7 +715,7 @@ func TestAddSubTitleEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "desc", "Link", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: ""}, nil, nil)
 
 	// act
 	p.AddSubTitle("")
@@ -728,7 +728,7 @@ func TestAddSubTitleTooLong(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "desc", "Link", nil, nil)
+	p := podcast.New("title", "Link", podcast.Description{Text: ""}, nil, nil)
 	subTitle := ""
 	for {
 		if len(subTitle) >= 80 {
@@ -750,8 +750,8 @@ func TestAddSummaryTooLong(t *testing.T) {
 	// arrange
 	p := podcast.New(
 		"title",
-		"desc",
 		"Link",
+		podcast.Description{Text: ""},
 		nil, nil)
 	summary := ""
 	for {
@@ -772,7 +772,7 @@ func TestAddSummaryEmpty(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "desc", "Link", nil, nil)
+	p := podcast.New("title", "Link", podcast.Description{Text: ""}, nil, nil)
 
 	// act
 	p.AddSummary("")
@@ -809,7 +809,7 @@ func TestEncodeWriterError(t *testing.T) {
 	t.Parallel()
 
 	// arrange
-	p := podcast.New("title", "desc", "Link", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: ""}, nil, nil)
 
 	// act
 	err := p.Encode(&errWriter{})

@@ -7,19 +7,19 @@ import (
 )
 
 func ExampleNew() {
-	ti, l, d := "title", "link", "description"
+	ti, l, d := "title", "link", podcast.Description{Text: "description"}
 
 	// instantiate a new Podcast
 	p := podcast.New(ti, l, d, &pubDate, &updatedDate)
 	p.AddLanguage("en-us")
 
-	fmt.Println(p.Title, p.Link, p.Description, p.Language)
+	fmt.Println(p.Title, p.Link, p.Description.Text, p.Language)
 	// Output:
 	// title link description en-us
 }
 
 func ExamplePodcast_AddAuthor() {
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// add the Author
 	// p.AddAuthor("the name", "me@test.com")
@@ -32,7 +32,7 @@ func ExamplePodcast_AddAuthor() {
 }
 
 func ExamplePodcast_AddCategory() {
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// add the Category
 	p.AddCategory("Bombay", nil)
@@ -47,7 +47,7 @@ func ExamplePodcast_AddCategory() {
 }
 
 func ExamplePodcast_AddImage() {
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// add the Image
 	p.AddImage("http://example.com/image.jpg")
@@ -96,7 +96,7 @@ func ExamplePodcast_AddImage() {
 // 	// http://example.com/1.mp3 Episode 1 http://example.com/1.mp3 Description for Episode 1     {{ } http://example.com/1.mp3 183 183 audio/mpeg audio/mpeg} the name     A simple episode 1 &{{ } See more at <a href="http://example.com">Here</a>}
 // }
 func ExamplePodcast_AddSummary() {
-	p := podcast.New("title", "link", "description", nil, nil)
+	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
 	// add a summary
 	p.AddSummary(`A very cool podcast with a long summary!
@@ -224,7 +224,7 @@ See more at our website: <a href="http://example.com">example.com</a>
 func ExampleItem_AddDuration() {
 	i := podcast.Item{
 		Title:       "item title",
-		Description: "item desc",
+		Description: &podcast.Description{Text: "item desc"},
 		Link:        "item link",
 	}
 	d := int64(533)
