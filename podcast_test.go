@@ -57,6 +57,7 @@ func TestAddAuthorEmpty(t *testing.T) {
 	// assert
 	// assert.Len(t, p.ManagingEditor, 0)
 	assert.Len(t, p.IAuthor, 0)
+	assert.Len(t, p.GooglePlayAuthor, 0)
 }
 
 func TestAddAuthor(t *testing.T) {
@@ -71,6 +72,7 @@ func TestAddAuthor(t *testing.T) {
 	// assert
 	// assert.Len(t, p.ManagingEditor, 0)
 	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron&apos;s Woods")
+	assert.Equal(t, p.GooglePlayAuthor, "Joe, Lisa, Aaron&apos;s Woods")
 }
 
 func TestAddCopyright(t *testing.T) {
@@ -122,8 +124,9 @@ func TestAddCategoryEmpty(t *testing.T) {
 	p.AddCategory("", nil)
 
 	// assert
-	assert.Len(t, p.ICategories, 0)
 	assert.Len(t, p.Category, 0)
+	assert.Len(t, p.ICategories, 0)
+	assert.Len(t, p.GooglePlayCategories, 0)
 }
 
 func TestAddPodcastDescriptionEmpty(t *testing.T) {
@@ -134,6 +137,7 @@ func TestAddPodcastDescriptionEmpty(t *testing.T) {
 	p.AddDescription(podcast.Description{})
 
 	assert.Nil(t, p.Description)
+	assert.Len(t, p.GooglePlayDescription, 0)
 	assert.Nil(t, p.EncodedDescription)
 }
 
@@ -146,6 +150,7 @@ func TestAddPodcastDescription(t *testing.T) {
 	p.AddDescription(podcast.Description{Text: desc})
 
 	assert.Equal(t, p.Description.Text, desc)
+	assert.Equal(t, p.GooglePlayDescription, desc)
 	assert.Equal(t, p.EncodedDescription.Text, desc)
 }
 
@@ -169,9 +174,13 @@ func TestAddCategorySubCatEmpty1(t *testing.T) {
 	p.AddCategory("mycat", []string{""})
 
 	// assert
-	assert.Len(t, p.ICategories, 1)
 	assert.EqualValues(t, p.Category, "mycat")
+	assert.Len(t, p.ICategories, 1)
+	assert.Equal(t, p.ICategories[0].Text, "mycat")
 	assert.Len(t, p.ICategories[0].ICategories, 0)
+	assert.Len(t, p.GooglePlayCategories, 1)
+	assert.Equal(t, p.GooglePlayCategories[0].Text, "mycat")
+	assert.Len(t, p.GooglePlayCategories[0].GooglePlayCategories, 0)
 }
 
 func TestAddCategorySubCatEmpty2(t *testing.T) {
@@ -184,9 +193,14 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 	p.AddCategory("mycat", []string{"xyz", "", "abc"})
 
 	// assert
-	assert.Len(t, p.ICategories, 1)
 	assert.EqualValues(t, p.Category, "mycat")
+	assert.Len(t, p.ICategories, 1)
+	assert.Equal(t, p.ICategories[0].Text, "mycat")
 	assert.Len(t, p.ICategories[0].ICategories, 2)
+
+	assert.Len(t, p.GooglePlayCategories, 1)
+	assert.Equal(t, p.GooglePlayCategories[0].Text, "mycat")
+	assert.Len(t, p.GooglePlayCategories[0].GooglePlayCategories, 2)
 }
 
 func TestParseCategories(t *testing.T) {
@@ -314,6 +328,8 @@ func TestAddImageEmpty(t *testing.T) {
 
 	// assert
 	assert.Nil(t, p.Image)
+	assert.Nil(t, p.IImage)
+	assert.Nil(t, p.GooglePlayImage)
 }
 
 func TestAddImage(t *testing.T) {
@@ -326,6 +342,8 @@ func TestAddImage(t *testing.T) {
 	p.AddImage("https://google.com")
 
 	assert.Equal(t, p.Image.URL, "https://google.com")
+	assert.Equal(t, p.IImage.HREF, "https://google.com")
+	assert.Equal(t, p.GooglePlayImage.HREF, "https://google.com")
 }
 
 func TestAddItemEmptyTitleDescription(t *testing.T) {
@@ -600,28 +618,6 @@ func TestAddComplete(t *testing.T) {
 	assert.Equal(t, p.IComplete, "Yes")
 }
 
-func TestAddItunesImageEmpty(t *testing.T) {
-	t.Parallel()
-
-	// arrange
-	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
-
-	p.AddItunesImage("")
-
-	assert.Nil(t, p.IImage)
-}
-
-func TestAddItunesImage(t *testing.T) {
-	t.Parallel()
-
-	// arrange
-	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
-
-	p.AddItunesImage("https://google.com")
-
-	assert.Equal(t, p.IImage.HREF, "https://google.com")
-}
-
 func TestAddShowTypeEmpty(t *testing.T) {
 	t.Parallel()
 
@@ -697,6 +693,7 @@ func TestAddOwnerEmpty(t *testing.T) {
 	p.AddOwner("", "")
 
 	assert.Nil(t, p.IOwner)
+	assert.Len(t, p.GooglePlayOwner, 0)
 }
 
 func TestAddOwner(t *testing.T) {
@@ -709,6 +706,7 @@ func TestAddOwner(t *testing.T) {
 
 	assert.Equal(t, p.IOwner.Name, "joe")
 	assert.Equal(t, p.IOwner.Email, "joe@podpal.com")
+	assert.Equal(t, p.GooglePlayOwner, "joe@podpal.com")
 }
 
 func TestAddSubTitleEmpty(t *testing.T) {

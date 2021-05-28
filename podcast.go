@@ -64,6 +64,13 @@ type Podcast struct {
 	IOwner      *Author // Author is formatted for itunes as-is
 	ICategories []*ICategory
 
+	// https://support.google.com/podcast-publishers/answer/9889544?hl=en
+	GooglePlayAuthor      string `xml:"googleplay:author,omitempty"`
+	GooglePlayDescription string `xml:"googleplay:description,omitempty"`
+	GooglePlayOwner       string `xml:"googleplay:owner,omitempty"`
+	GooglePlayImage       *GooglePlayImage
+	GooglePlayCategories  []*GooglePlayCategory
+
 	Items []*Item
 
 	encode func(w io.Writer, o interface{}) error
@@ -113,7 +120,9 @@ func (p *Podcast) AddAuthor(authors []string) {
 		}
 	}
 
-	p.IAuthor = GenerateFeedString(combinedAuthors)
+	author := GenerateFeedString(combinedAuthors)
+	p.IAuthor = author
+	p.GooglePlayAuthor = author
 }
 
 // AddAtomLink adds a FQDN reference to an atom feed.
@@ -219,14 +228,20 @@ func (p *Podcast) AddCategory(category string, subCategories []string) {
 	}
 
 	icat := ICategory{Text: category}
+	googleplaycat := GooglePlayCategory{Text: category}
 	for _, c := range subCategories {
 		if len(c) == 0 {
 			continue
 		}
 		icat2 := ICategory{Text: c}
 		icat.ICategories = append(icat.ICategories, &icat2)
+
+		googleplaysubcat := GooglePlayCategory{Text: c}
+		googleplaycat.GooglePlayCategories = append(googleplaycat.GooglePlayCategories, &googleplaysubcat)
 	}
+
 	p.ICategories = append(p.ICategories, &icat)
+	p.GooglePlayCategories = append(p.GooglePlayCategories, &googleplaycat)
 }
 
 func (p *Podcast) AddCopyright(copyright string) {
@@ -302,6 +317,7 @@ func (p *Podcast) AddDescription(description Description) {
 	}
 
 	p.Description = &description
+	p.GooglePlayDescription = description.Text
 	p.EncodedDescription = &EncodedContent{
 		Text: description.Text,
 	}
@@ -473,6 +489,10 @@ func (p *Podcast) AddImage(url string) {
 		Title: p.Title,
 		Link:  p.Link,
 	}
+	p.IImage = &IImage{HREF: url}
+	p.GooglePlayImage = &GooglePlayImage{
+		HREF: url,
+	}
 }
 
 // AddItem adds the podcast episode.  It returns a count of Items added or any
@@ -598,14 +618,6 @@ func (p *Podcast) AddItunesComplete(complete string) {
 	}
 }
 
-func (p *Podcast) AddItunesImage(url string) {
-	if len(url) == 0 {
-		return
-	}
-
-	p.IImage = &IImage{HREF: url}
-}
-
 func (p *Podcast) AddItunesTitle(title string) {
 	if len(title) == 0 {
 		return
@@ -639,6 +651,8 @@ func (p *Podcast) AddOwner(name, email string) {
 		Name:  GenerateFeedString(name),
 		Email: GenerateFeedString(email),
 	}
+
+	p.GooglePlayOwner = GenerateFeedString(email)
 }
 
 func (p *Podcast) AddPubDate(datetime string) {
