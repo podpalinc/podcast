@@ -317,7 +317,6 @@ func (p *Podcast) AddDescription(description Description) {
 	}
 
 	p.Description = &description
-	p.GooglePlayDescription = description.Text
 	p.EncodedDescription = &EncodedContent{
 		Text: description.Text,
 	}

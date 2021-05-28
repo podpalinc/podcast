@@ -150,7 +150,6 @@ func TestAddPodcastDescription(t *testing.T) {
 	p.AddDescription(podcast.Description{Text: desc})
 
 	assert.Equal(t, p.Description.Text, desc)
-	assert.Equal(t, p.GooglePlayDescription, desc)
 	assert.Equal(t, p.EncodedDescription.Text, desc)
 }
 
