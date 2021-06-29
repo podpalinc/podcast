@@ -201,7 +201,7 @@ func TestAddEpisodeParentalAdvisoryExplicit(t *testing.T) {
 
 	i.AddParentalAdvisory(podcast.ParentalAdvisoryExplicit)
 
-	assert.EqualValues(t, i.IExplicit, "true")
+	assert.EqualValues(t, i.IExplicit, "yes")
 }
 
 func TestAddEpisodeParentalAdvisoryClean(t *testing.T) {
@@ -215,7 +215,7 @@ func TestAddEpisodeParentalAdvisoryClean(t *testing.T) {
 
 	i.AddParentalAdvisory(podcast.ParentalAdvisoryClean)
 
-	assert.EqualValues(t, i.IExplicit, "false")
+	assert.EqualValues(t, i.IExplicit, "no")
 }
 
 func TestAddPubDateEmpty(t *testing.T) {

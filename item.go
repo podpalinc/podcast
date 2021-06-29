@@ -154,9 +154,9 @@ func (i *Item) AddItunesTitle(title string) {
 
 func (i *Item) AddParentalAdvisory(parentalAdvisory string) {
 	if parentalAdvisory == ParentalAdvisoryExplicit {
-		i.IExplicit = "true"
+		i.IExplicit = "yes"
 	} else if parentalAdvisory == ParentalAdvisoryClean {
-		i.IExplicit = "false"
+		i.IExplicit = "no"
 	}
 
 	return

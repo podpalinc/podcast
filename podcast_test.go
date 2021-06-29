@@ -303,7 +303,7 @@ func TestAddParentalAdvisoryExplicit(t *testing.T) {
 
 	p.AddParentalAdvisory(podcast.ParentalAdvisoryExplicit)
 
-	assert.EqualValues(t, p.IExplicit, "true")
+	assert.EqualValues(t, p.IExplicit, "yes")
 }
 
 func TestAddParentalAdvisoryClean(t *testing.T) {
@@ -313,7 +313,7 @@ func TestAddParentalAdvisoryClean(t *testing.T) {
 
 	p.AddParentalAdvisory(podcast.ParentalAdvisoryClean)
 
-	assert.EqualValues(t, p.IExplicit, "false")
+	assert.EqualValues(t, p.IExplicit, "no")
 }
 
 func TestAddImageEmpty(t *testing.T) {
