@@ -291,7 +291,7 @@ func TestAddParentalAdvisoryEmpty(t *testing.T) {
 
 	p := podcast.New("title", "link", podcast.Description{Text: "Description"}, nil, nil)
 
-	p.AddParentalAdvisory("invalid")
+	p.AddParentalAdvisory("something")
 
 	assert.EqualValues(t, p.IExplicit, "")
 }
