@@ -33,11 +33,10 @@ type Podcast struct {
 	Link               string `xml:"link,omitempty"`
 	Description        *Description
 	EncodedDescription *EncodedContent
-	Category           string `xml:"category,omitempty"`
+	Language           string `xml:"language,omitempty"`
 	Cloud              string `xml:"cloud,omitempty"`
 	Copyright          string `xml:"copyright,omitempty"`
 	Docs               string `xml:"docs,omitempty"`
-	Language           string `xml:"language,omitempty"`
 	PubDate            string `xml:"pubDate,omitempty"`
 	LastBuildDate      string `xml:"lastBuildDate,omitempty"`
 	ManagingEditor     string `xml:"managingEditor,omitempty"`
@@ -69,7 +68,6 @@ type Podcast struct {
 	GooglePlayDescription string `xml:"googleplay:description,omitempty"`
 	GooglePlayOwner       string `xml:"googleplay:owner,omitempty"`
 	GooglePlayImage       *GooglePlayImage
-	GooglePlayCategories  []*GooglePlayCategory
 
 	Items []*Item
 
@@ -220,28 +218,16 @@ func (p *Podcast) AddCategory(category string, subCategories []string) {
 		return
 	}
 
-	// RSS 2.0 Category only supports 1-tier
-	if len(p.Category) > 0 {
-		p.Category = p.Category + "," + category
-	} else {
-		p.Category = category
-	}
-
 	icat := ICategory{Text: category}
-	googleplaycat := GooglePlayCategory{Text: category}
 	for _, c := range subCategories {
 		if len(c) == 0 {
 			continue
 		}
 		icat2 := ICategory{Text: c}
 		icat.ICategories = append(icat.ICategories, &icat2)
-
-		googleplaysubcat := GooglePlayCategory{Text: c}
-		googleplaycat.GooglePlayCategories = append(googleplaycat.GooglePlayCategories, &googleplaysubcat)
 	}
 
 	p.ICategories = append(p.ICategories, &icat)
-	p.GooglePlayCategories = append(p.GooglePlayCategories, &googleplaycat)
 }
 
 func (p *Podcast) AddCopyright(copyright string) {

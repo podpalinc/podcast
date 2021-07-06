@@ -124,9 +124,7 @@ func TestAddCategoryEmpty(t *testing.T) {
 	p.AddCategory("", nil)
 
 	// assert
-	assert.Len(t, p.Category, 0)
 	assert.Len(t, p.ICategories, 0)
-	assert.Len(t, p.GooglePlayCategories, 0)
 }
 
 func TestAddPodcastDescriptionEmpty(t *testing.T) {
@@ -173,13 +171,9 @@ func TestAddCategorySubCatEmpty1(t *testing.T) {
 	p.AddCategory("mycat", []string{""})
 
 	// assert
-	assert.EqualValues(t, p.Category, "mycat")
 	assert.Len(t, p.ICategories, 1)
 	assert.Equal(t, p.ICategories[0].Text, "mycat")
 	assert.Len(t, p.ICategories[0].ICategories, 0)
-	assert.Len(t, p.GooglePlayCategories, 1)
-	assert.Equal(t, p.GooglePlayCategories[0].Text, "mycat")
-	assert.Len(t, p.GooglePlayCategories[0].GooglePlayCategories, 0)
 }
 
 func TestAddCategorySubCatEmpty2(t *testing.T) {
@@ -192,14 +186,9 @@ func TestAddCategorySubCatEmpty2(t *testing.T) {
 	p.AddCategory("mycat", []string{"xyz", "", "abc"})
 
 	// assert
-	assert.EqualValues(t, p.Category, "mycat")
 	assert.Len(t, p.ICategories, 1)
 	assert.Equal(t, p.ICategories[0].Text, "mycat")
 	assert.Len(t, p.ICategories[0].ICategories, 2)
-
-	assert.Len(t, p.GooglePlayCategories, 1)
-	assert.Equal(t, p.GooglePlayCategories[0].Text, "mycat")
-	assert.Len(t, p.GooglePlayCategories[0].GooglePlayCategories, 2)
 }
 
 func TestParseCategories(t *testing.T) {

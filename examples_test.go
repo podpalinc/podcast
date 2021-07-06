@@ -40,10 +40,8 @@ func ExamplePodcast_AddCategory() {
 	p.AddCategory("Siamese", nil)
 
 	fmt.Println(len(p.ICategories), len(p.ICategories[1].ICategories))
-	fmt.Println(p.Category)
 	// Output:
 	// 3 2
-	// Bombay,American,Siamese
 }
 
 func ExamplePodcast_AddImage() {
