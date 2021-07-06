@@ -137,6 +137,7 @@ func TestAddPodcastDescriptionEmpty(t *testing.T) {
 	assert.Nil(t, p.Description)
 	assert.Len(t, p.GooglePlayDescription, 0)
 	assert.Nil(t, p.EncodedDescription)
+	assert.Nil(t, p.ISummary)
 }
 
 func TestAddPodcastDescription(t *testing.T) {
@@ -149,6 +150,7 @@ func TestAddPodcastDescription(t *testing.T) {
 
 	assert.Equal(t, p.Description.Text, desc)
 	assert.Equal(t, p.EncodedDescription.Text, desc)
+	assert.Equal(t, p.ISummary.Text, desc)
 }
 
 func TestAddLanguageEmpty(t *testing.T) {

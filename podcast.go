@@ -306,6 +306,9 @@ func (p *Podcast) AddDescription(description Description) {
 	p.EncodedDescription = &EncodedContent{
 		Text: description.Text,
 	}
+	p.ISummary = &ISummary{
+		Text: description.Text,
+	}
 }
 
 func (p *Podcast) AddGenerator(generator string) {
