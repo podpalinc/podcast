@@ -11,6 +11,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/pkg/errors"
+	"github.com/podpalinc/rss-feed-generator/html2text"
 )
 
 // Constants to use while generating podcast feed.
@@ -26,27 +27,26 @@ const (
 
 // Podcast represents a podcast.
 type Podcast struct {
-	XMLName            xml.Name `xml:"channel"`
-	AtomLink           *AtomLink
-	Generator          string `xml:"generator,omitempty"`
-	Title              string `xml:"title"`
-	Link               string `xml:"link,omitempty"`
-	Description        *Description
-	EncodedDescription *EncodedContent
-	Language           string `xml:"language,omitempty"`
-	Cloud              string `xml:"cloud,omitempty"`
-	Copyright          string `xml:"copyright,omitempty"`
-	Docs               string `xml:"docs,omitempty"`
-	PubDate            string `xml:"pubDate,omitempty"`
-	LastBuildDate      string `xml:"lastBuildDate,omitempty"`
-	ManagingEditor     string `xml:"managingEditor,omitempty"`
-	Rating             string `xml:"rating,omitempty"`
-	SkipHours          string `xml:"skipHours,omitempty"`
-	SkipDays           string `xml:"skipDays,omitempty"`
-	TTL                int    `xml:"ttl,omitempty"`
-	WebMaster          string `xml:"webMaster,omitempty"`
-	Image              *Image
-	TextInput          *TextInput
+	XMLName        xml.Name `xml:"channel"`
+	AtomLink       *AtomLink
+	Generator      string `xml:"generator,omitempty"`
+	Title          string `xml:"title"`
+	Link           string `xml:"link,omitempty"`
+	Description    *Description
+	Language       string `xml:"language,omitempty"`
+	Cloud          string `xml:"cloud,omitempty"`
+	Copyright      string `xml:"copyright,omitempty"`
+	Docs           string `xml:"docs,omitempty"`
+	PubDate        string `xml:"pubDate,omitempty"`
+	LastBuildDate  string `xml:"lastBuildDate,omitempty"`
+	ManagingEditor string `xml:"managingEditor,omitempty"`
+	Rating         string `xml:"rating,omitempty"`
+	SkipHours      string `xml:"skipHours,omitempty"`
+	SkipDays       string `xml:"skipDays,omitempty"`
+	TTL            int    `xml:"ttl,omitempty"`
+	WebMaster      string `xml:"webMaster,omitempty"`
+	Image          *Image
+	TextInput      *TextInput
 
 	// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 	ITitle      string `xml:"itunes:title,omitempty"`
@@ -64,10 +64,10 @@ type Podcast struct {
 	ICategories []*ICategory
 
 	// https://support.google.com/podcast-publishers/answer/9889544?hl=en
-	GooglePlayAuthor      string `xml:"googleplay:author,omitempty"`
-	GooglePlayDescription string `xml:"googleplay:description,omitempty"`
-	GooglePlayOwner       string `xml:"googleplay:owner,omitempty"`
-	GooglePlayImage       *GooglePlayImage
+	// GooglePlayAuthor      string `xml:"googleplay:author,omitempty"`
+	// GooglePlayDescription string `xml:"googleplay:description,omitempty"`
+	// GooglePlayOwner       string `xml:"googleplay:owner,omitempty"`
+	// GooglePlayImage       *GooglePlayImage
 
 	Items []*Item
 
@@ -120,7 +120,6 @@ func (p *Podcast) AddAuthor(authors []string) {
 
 	author := GenerateFeedString(combinedAuthors)
 	p.IAuthor = author
-	p.GooglePlayAuthor = author
 }
 
 // AddAtomLink adds a FQDN reference to an atom feed.
@@ -302,12 +301,11 @@ func (p *Podcast) AddDescription(description Description) {
 		return
 	}
 
-	p.Description = &description
-	p.EncodedDescription = &EncodedContent{
-		Text: description.Text,
+	p.Description = &Description{
+		Text: html2text.HTML2Text(description.Text),
 	}
 	p.ISummary = &ISummary{
-		Text: description.Text,
+		Text: html2text.HTML2Text(description.Text),
 	}
 }
 
@@ -478,9 +476,6 @@ func (p *Podcast) AddImage(url string) {
 		Link:  p.Link,
 	}
 	p.IImage = &IImage{HREF: url}
-	p.GooglePlayImage = &GooglePlayImage{
-		HREF: url,
-	}
 }
 
 // AddItem adds the podcast episode.  It returns a count of Items added or any
@@ -639,8 +634,6 @@ func (p *Podcast) AddOwner(name, email string) {
 		Name:  GenerateFeedString(name),
 		Email: GenerateFeedString(email),
 	}
-
-	p.GooglePlayOwner = GenerateFeedString(email)
 }
 
 func (p *Podcast) AddPubDate(datetime string) {

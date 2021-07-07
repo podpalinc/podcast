@@ -57,7 +57,6 @@ func TestAddAuthorEmpty(t *testing.T) {
 	// assert
 	// assert.Len(t, p.ManagingEditor, 0)
 	assert.Len(t, p.IAuthor, 0)
-	assert.Len(t, p.GooglePlayAuthor, 0)
 }
 
 func TestAddAuthor(t *testing.T) {
@@ -72,7 +71,6 @@ func TestAddAuthor(t *testing.T) {
 	// assert
 	// assert.Len(t, p.ManagingEditor, 0)
 	assert.Equal(t, p.IAuthor, "Joe, Lisa, Aaron&apos;s Woods")
-	assert.Equal(t, p.GooglePlayAuthor, "Joe, Lisa, Aaron&apos;s Woods")
 }
 
 func TestAddCopyright(t *testing.T) {
@@ -135,8 +133,6 @@ func TestAddPodcastDescriptionEmpty(t *testing.T) {
 	p.AddDescription(podcast.Description{})
 
 	assert.Nil(t, p.Description)
-	assert.Len(t, p.GooglePlayDescription, 0)
-	assert.Nil(t, p.EncodedDescription)
 	assert.Nil(t, p.ISummary)
 }
 
@@ -149,7 +145,6 @@ func TestAddPodcastDescription(t *testing.T) {
 	p.AddDescription(podcast.Description{Text: desc})
 
 	assert.Equal(t, p.Description.Text, desc)
-	assert.Equal(t, p.EncodedDescription.Text, desc)
 	assert.Equal(t, p.ISummary.Text, desc)
 
 }
@@ -320,7 +315,6 @@ func TestAddImageEmpty(t *testing.T) {
 	// assert
 	assert.Nil(t, p.Image)
 	assert.Nil(t, p.IImage)
-	assert.Nil(t, p.GooglePlayImage)
 }
 
 func TestAddImage(t *testing.T) {
@@ -334,7 +328,6 @@ func TestAddImage(t *testing.T) {
 
 	assert.Equal(t, p.Image.URL, "https://google.com")
 	assert.Equal(t, p.IImage.HREF, "https://google.com")
-	assert.Equal(t, p.GooglePlayImage.HREF, "https://google.com")
 }
 
 func TestAddItemEmptyTitleDescription(t *testing.T) {
@@ -684,7 +677,6 @@ func TestAddOwnerEmpty(t *testing.T) {
 	p.AddOwner("", "")
 
 	assert.Nil(t, p.IOwner)
-	assert.Len(t, p.GooglePlayOwner, 0)
 }
 
 func TestAddOwner(t *testing.T) {
@@ -697,7 +689,6 @@ func TestAddOwner(t *testing.T) {
 
 	assert.Equal(t, p.IOwner.Name, "joe")
 	assert.Equal(t, p.IOwner.Email, "joe@podpal.com")
-	assert.Equal(t, p.GooglePlayOwner, "joe@podpal.com")
 }
 
 func TestAddSubTitleEmpty(t *testing.T) {

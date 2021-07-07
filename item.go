@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"unicode/utf8"
+
+	"github.com/podpalinc/rss-feed-generator/html2text"
 )
 
 // Item represents a single entry in a podcast.
@@ -192,7 +194,7 @@ func (i *Item) AddSummary(summary string) {
 		summary = string(s[0:4000])
 	}
 	i.ISummary = &ISummary{
-		Text: summary,
+		Text: html2text.HTML2Text(summary),
 	}
 }
 
