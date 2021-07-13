@@ -32,6 +32,8 @@ func (et EnclosureType) GetEnclosureType(enclosureType string) EnclosureType {
 		return M4V
 	case "video/mp4":
 		return MP4
+	case "video/quicktime":
+		return MOV
 	}
 	return MP3
 }
